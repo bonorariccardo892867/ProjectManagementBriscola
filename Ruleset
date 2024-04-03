@@ -1,0 +1,57 @@
+SCOPA VS BRISCOLA
+
+Scopa VS Briscola is a chaotic card game that combines scopa and briscola, allowing players to switch between the games during their own turn once per game.
+
+The game can only be played with 4 players, the players are divided in 2 teams that need to collaborate to score the most points.
+
+The game uses the standard “scopa” cards, which is a deck of 40 cards.
+
+Setup
+The briscola is set automatically to “denari”. Each of the 4 players is given 3 cards, there are no cards set on the table at this time, the starting game is briscola. Each player also has a single “switch token”, that can be used to change the game from briscola to scopa and vice-versa during a player’s turn.
+
+Picking up cards
+
+At every turn each player will draw a card from the deck, the order of picking up the cards is based on the turn order that players will play this turn, see “Choosing which player begins the turn” for details on how the order is decided.
+
+Default briscola
+The first player plays a card, this card is marked as “winning” and “starting”, a card can be both “winning” and “starting”.
+
+The next player in line plays their card, if the new card has a higher priority than the current “winning” card it takes its place as the “winning” card.
+All of the cards played in this turn are considered “on the table” and “competing”.
+
+When all of the players have played a card without using a token, the team of the player who played the “winning” card will take all of the cards currently “on the table” adding to their “briscola pile”.
+
+Switch Token is used, briscola -> scopa
+A switch token can only be used BEFORE playing a card.
+
+If a player uses their switch token while the game is set to briscola the rules will switch to scopa:
+All of the cards “on the table”  are now considered as part of a game of scopa, however the “starting” and “winning” cards are still marked as such.
+
+The player who played the switch token can now play their card like a regular game of scopa, they can take cards to add to their team’s “scopa pile”, they can use an ace to clear the table and add all of the cards “on the table” to their team’s “scopa pile”, or if they’re able to clear all of the cards “on the table” without using an ace the player’s team gets a “scopa point”.
+
+Default Scopa
+When a turn starts in the scopa game mode the game is played normally, every card that gets played is marked as “on the table”, however, even when the game of scopa is being played, the “starting” and “winning” cards are still being decided through the briscola ruleset, even if the outcome of said result is not relevant at the moment.
+
+
+Starting cards and winning cards during scopa
+If during scopa, a “starting” card is caught through the scopa ruleset, the “starting” mark gets passed to the card that was played the turn after that, now the new “starting” card gets referenced as the one set as the starting card of the briscola hand, and the “winning” card gets recalculated, in this case the card marked as “winning” may also change.
+
+If the card marked as “winning” gets caught through the scopa ruleset, the card of the higher priority that was played this turn will be marked as “winning”, if there’s only the “starting” card left then that one becomes the “winning” one.
+
+Cards that were “on the table” the turn before can never be marked as starting or winning.
+
+Switch Token is used, scopa -> briscola
+A switch token can only be used BEFORE playing a card.
+
+If a player uses their token while the game is in scopa, the rules will switch to the briscola version, at this point the turn continues as normal, the starting and winning card will resume their roles as such.
+Other cards that were “on the table” from the turn before will not be counted as competing to be the winning card at the end of the turn and will be counted as extra cards.
+
+The extra cards on the table will be picked up by the player’s team who had the winning card for this turn, these cards will be added to the gained briscola cards and be counted as briscola points.
+
+Choosing which player begins a turn
+Deciding which player plays a card for each turn depends on the current game at the end of the turn. If the turn ended on briscola the player who had the winning card and picked up the cards on the table will start the next end, if it ends on scopa the player who played the first card last turn will be the first to play next turn.
+
+Counting the cards at the end
+At the end of the game both the briscola and scopa points are counted by both teams with the algorithm- 	TO BE DECIDED
+If a token is unused during the game it won’t give any extra points, it was just wasted.
+
