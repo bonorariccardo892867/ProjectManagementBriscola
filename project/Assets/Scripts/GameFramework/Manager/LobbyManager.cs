@@ -15,6 +15,8 @@ namespace GameFramework.Core.GameFramework.Manager{
         private Coroutine heartbeatCoroutine;
         private Coroutine refreshLobbyCoroutine;
 
+        public string Id => lobby.Id;
+
         // method for lobby creation
         public async Task<bool> CreateLobby(int maxPlayers, Dictionary<string, string> data, bool isPrivate=true){
 

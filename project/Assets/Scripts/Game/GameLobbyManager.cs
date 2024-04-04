@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using GameFramework.Core;
 using GameFramework.Core.Data;
@@ -7,7 +8,6 @@ using GameFramework.Core.GameFramework.Manager;
 using GameFramework.Events;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
-using UnityEngine;
 
 namespace Game{
     public class GameLobbyManager : Singleton<GameLobbyManager>{   
@@ -25,7 +25,7 @@ namespace Game{
         // Method to create the lobby by calling the CreateLobby method of LobbyManager.cs
         public async Task<bool> CreateLobby(){
             LobbyPlayerData playerData = new LobbyPlayerData();
-            playerData.Inizialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            playerData.Inizialize(AuthenticationService.Instance.PlayerId, "HostPlayer", true);
             bool succeeded = await LobbyManager.instance.CreateLobby(4, playerData.Serialize());
             return succeeded;
         }
@@ -38,7 +38,7 @@ namespace Game{
         // Method to join a lobby with code
         public async Task<bool> JoinLobby(string code){
             LobbyPlayerData playerData = new LobbyPlayerData();
-            playerData.Inizialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
+            playerData.Inizialize(AuthenticationService.Instance.PlayerId, "JoinPlayer", false);
             bool succeeded = await LobbyManager.instance.JoinLobby(code, playerData.Serialize());
             return succeeded;
         }
@@ -64,6 +64,17 @@ namespace Game{
         public List<LobbyPlayerData> GetPlayers()
         {
             return lobbyPlayerDatas;
+        }
+
+        public string GetHostId(){
+            string hostId = "";
+            for(int i=0; i<lobbyPlayerDatas.Count; i++){
+                LobbyPlayerData playerData = lobbyPlayerDatas[i];
+                if(playerData.Host == true){
+                    hostId = playerData.Id;
+                }
+            }
+            return hostId;
         }
     }
 }

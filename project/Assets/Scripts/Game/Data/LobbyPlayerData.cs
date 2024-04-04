@@ -8,19 +8,23 @@ namespace GameFramework.Core.Data{
     {
         private string id;
         private string gamerTag;
+        private bool host;
 
         public string Id => id;
         public string Gamertag => gamerTag;
+        public bool Host => host;
 
-        public void Inizialize(string idPlayer, string gamerTagPlayer){
+        public void Inizialize(string idPlayer, string gamerTagPlayer, bool isHost){
             id = idPlayer;
             gamerTag = gamerTagPlayer;
+            host = isHost;
         }
 
         public Dictionary<string, string> Serialize(){
             return new Dictionary<string, string>(){
                 {"Id", id},
-                {"GamerTag", gamerTag}
+                {"GamerTag", gamerTag},
+                {"Host", host.ToString()}
             };
         }
 
@@ -33,6 +37,8 @@ namespace GameFramework.Core.Data{
                 id = playerData["Id"].Value;
             if(playerData.ContainsKey("GamerTag"))
                 gamerTag = playerData["GamerTag"].Value;
+            if(playerData.ContainsKey("Host"))
+                host = playerData["Host"].Value == "True";
         }
     }
 }
