@@ -1,0 +1,1 @@
+When you download the project, go to https://dashboard.unity3d.com/, log in, and connect both the lobby service and the relay service to the project
