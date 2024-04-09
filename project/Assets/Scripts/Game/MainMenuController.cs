@@ -15,14 +15,12 @@ namespace Game{
         [SerializeField] private Button submitButton;
         [SerializeField] private TextMeshProUGUI codeText;
 
-        // Method called when the object is enabled
         private void OnEnable(){
             hostButton.onClick.AddListener(OnHostClicked);
             joinButton.onClick.AddListener(OnJoinClicked);
             submitButton.onClick.AddListener(OnSubmitClicked);
         }
 
-        // Method called when the object is disabled
         private void OnDisable(){
             hostButton.onClick.RemoveListener(OnHostClicked);
             joinButton.onClick.RemoveListener(OnJoinClicked);

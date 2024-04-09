@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameFramework.Core.Data;
 using GameFramework.Events;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
@@ -15,10 +16,11 @@ namespace GameFramework.Core.GameFramework.Manager{
         private Coroutine heartbeatCoroutine;
         private Coroutine refreshLobbyCoroutine;
 
+        // Property that returns the ID of the lobby
         public string Id => lobby.Id;
 
         // method for lobby creation
-        public async Task<bool> CreateLobby(int maxPlayers, Dictionary<string, string> data, bool isPrivate=true){
+        public async Task<bool> CreateLobby(int maxPlayers, Dictionary<string, string> data, Dictionary<string, string> lobbyData, bool isPrivate=true){
 
             // player data
             Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
@@ -26,6 +28,7 @@ namespace GameFramework.Core.GameFramework.Manager{
 
             // lobby options
             CreateLobbyOptions options = new CreateLobbyOptions(){
+                Data = SerializeLobbyData(lobbyData),
                 IsPrivate = isPrivate,
                 Player = player
             };  
@@ -65,6 +68,7 @@ namespace GameFramework.Core.GameFramework.Manager{
             }
         }
 
+        // Method to serialize player data.
         private Dictionary<string, PlayerDataObject> SerializePlayerData(Dictionary<string, string> data)
         {
             Dictionary<string, PlayerDataObject> playerData = new Dictionary<string, PlayerDataObject>();
@@ -76,10 +80,16 @@ namespace GameFramework.Core.GameFramework.Manager{
             return playerData;
         }
 
-        // Method to delete the lobby when the application is quitting
-        public void OnApplicationQuit() {
-            if(lobby != null && lobby.HostId == AuthenticationService.Instance.PlayerId)
-                LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
+        // Method to serialize lobby data.
+        private Dictionary<string, DataObject> SerializeLobbyData(Dictionary<string, string> data)
+        {
+            Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>();
+            foreach (var(key, value) in data){
+                lobbyData.Add(key, new DataObject(
+                    visibility: DataObject.VisibilityOptions.Member,
+                    value: value));
+            }
+            return lobbyData;
         }
 
         // Method to get the lobby code
@@ -105,6 +115,7 @@ namespace GameFramework.Core.GameFramework.Manager{
             return true;
         }
 
+        // Method to get player data in the lobby
         public List<Dictionary<string, PlayerDataObject>> GetPlayersData()
         {
             List<Dictionary<string, PlayerDataObject>> data = new List<Dictionary<string, PlayerDataObject>>();
@@ -113,6 +124,52 @@ namespace GameFramework.Core.GameFramework.Manager{
                 data.Add(player.Data);
             }
             return data;
+        }
+
+        // Method to update playerData
+        public async Task<bool> UpdatePlayerData(string id, Dictionary<string, string> data){
+            Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
+            UpdatePlayerOptions options = new UpdatePlayerOptions(){
+                Data = playerData
+            };
+            try{
+                lobby = await LobbyService.Instance.UpdatePlayerAsync(lobby.Id, id, options);
+            }catch(System.Exception){
+                return false;
+            }
+
+            LobbyEvents.OnLobbyUpdated(lobby);
+
+            return true;
+        }
+
+        // Method to update lobbyData
+        public async Task<bool> UpdateLobbyData(Dictionary<string, string> data){
+            Dictionary<string, DataObject> lobbyData = SerializeLobbyData(data);
+            UpdateLobbyOptions options = new UpdateLobbyOptions(){
+                Data = lobbyData
+            };
+            try{
+                lobby = await LobbyService.Instance.UpdateLobbyAsync(lobby.Id, options);
+            }catch(System.Exception){
+                return false;
+            }
+
+            LobbyEvents.OnLobbyUpdated(lobby);
+
+            return true;
+        }
+
+        // Method to get the ID of the lobby host
+        public string GetHostId()
+        {
+            return lobby.HostId;
+        }
+
+        // Method to delete the lobby when the application is quitting
+        public void OnApplicationQuit() {
+            if(lobby != null && lobby.HostId == AuthenticationService.Instance.PlayerId)
+                LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
         }
     }
 }

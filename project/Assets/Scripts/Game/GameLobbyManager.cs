@@ -13,6 +13,11 @@ namespace Game{
     public class GameLobbyManager : Singleton<GameLobbyManager>{   
         private List<LobbyPlayerData> lobbyPlayerDatas = new List<LobbyPlayerData>();
         private LobbyPlayerData localLobbyPlayerData;
+        private LobbyData lobbyData;
+
+        // Property that returns if the player is the host
+        public bool IsHost => localLobbyPlayerData.Id == LobbyManager.instance.GetHostId(); 
+
 
         private void OnEnable() {
             LobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
@@ -24,9 +29,12 @@ namespace Game{
 
         // Method to create the lobby by calling the CreateLobby method of LobbyManager.cs
         public async Task<bool> CreateLobby(){
-            LobbyPlayerData playerData = new LobbyPlayerData();
-            playerData.Inizialize(AuthenticationService.Instance.PlayerId, "HostPlayer", true);
-            bool succeeded = await LobbyManager.instance.CreateLobby(4, playerData.Serialize());
+            localLobbyPlayerData = new LobbyPlayerData();
+            localLobbyPlayerData.Inizialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            lobbyData = new LobbyData();
+            lobbyData.Inizialize(); // Update when the LobbyData class is updated
+
+            bool succeeded = await LobbyManager.instance.CreateLobby(4, localLobbyPlayerData.Serialize(), lobbyData.Serialize());
             return succeeded;
         }
 
@@ -37,9 +45,9 @@ namespace Game{
 
         // Method to join a lobby with code
         public async Task<bool> JoinLobby(string code){
-            LobbyPlayerData playerData = new LobbyPlayerData();
-            playerData.Inizialize(AuthenticationService.Instance.PlayerId, "JoinPlayer", false);
-            bool succeeded = await LobbyManager.instance.JoinLobby(code, playerData.Serialize());
+            localLobbyPlayerData = new LobbyPlayerData();
+            localLobbyPlayerData.Inizialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
+            bool succeeded = await LobbyManager.instance.JoinLobby(code, localLobbyPlayerData.Serialize());
             return succeeded;
         }
 
@@ -58,23 +66,17 @@ namespace Game{
 
                 lobbyPlayerDatas.Add(lobbyPlayerData);
             }
+
+            lobbyData = new LobbyData();
+            lobbyData.Inizialize(lobby.Data);
+
             Events.LobbyEvents.OnLobbyUpdated?.Invoke();
         }
 
+        // Method to get the list of lobby players
         public List<LobbyPlayerData> GetPlayers()
         {
             return lobbyPlayerDatas;
-        }
-
-        public string GetHostId(){
-            string hostId = "";
-            for(int i=0; i<lobbyPlayerDatas.Count; i++){
-                LobbyPlayerData playerData = lobbyPlayerDatas[i];
-                if(playerData.Host == true){
-                    hostId = playerData.Id;
-                }
-            }
-            return hostId;
         }
     }
 }
