@@ -19,6 +19,9 @@ namespace GameFramework.Core.GameFramework.Manager{
         // Property that returns the ID of the lobby
         public string Id => lobby.Id;
 
+        // Property that returns the number of players in the lobby
+        public int NumberOfPlayers => lobby.Players.Count;
+
         // method for lobby creation
         public async Task<bool> CreateLobby(int maxPlayers, Dictionary<string, string> data, Dictionary<string, string> lobbyData, bool isPrivate=true){
 
@@ -127,10 +130,12 @@ namespace GameFramework.Core.GameFramework.Manager{
         }
 
         // Method to update playerData
-        public async Task<bool> UpdatePlayerData(string id, Dictionary<string, string> data){
+        public async Task<bool> UpdatePlayerData(string id, Dictionary<string, string> data, string allocationId = default, string connectionData = default){
             Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
             UpdatePlayerOptions options = new UpdatePlayerOptions(){
-                Data = playerData
+                Data = playerData,
+                AllocationId = allocationId,
+                ConnectionInfo = connectionData
             };
             try{
                 lobby = await LobbyService.Instance.UpdatePlayerAsync(lobby.Id, id, options);

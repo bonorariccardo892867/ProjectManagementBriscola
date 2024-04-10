@@ -1,3 +1,4 @@
+using GameFramework.Core.GameFramework.Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,17 +20,19 @@ namespace Game{
 
         void Start()
         {
-            if(!GameLobbyManager.instance.IsHost)
-                startButton.gameObject.SetActive(false);
-
             // Add the lobby code
             lobbyCodeText.text = GameLobbyManager.instance.GetLobbyCode();
             
         }
 
+        void Update(){
+            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 4)
+                startButton.gameObject.SetActive(false);
+        }
+
         // Method called when the start button is clicked
-        private void OnStartClicked(){
-            Debug.Log("START!!!");
+        private async void OnStartClicked(){
+            await GameLobbyManager.instance.StartGame();
         }
 
     }

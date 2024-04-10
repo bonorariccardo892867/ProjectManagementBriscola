@@ -8,12 +8,14 @@ using GameFramework.Core.GameFramework.Manager;
 using GameFramework.Events;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using UnityEngine.SceneManagement;
 
 namespace Game{
     public class GameLobbyManager : Singleton<GameLobbyManager>{   
         private List<LobbyPlayerData> lobbyPlayerDatas = new List<LobbyPlayerData>();
         private LobbyPlayerData localLobbyPlayerData;
         private LobbyData lobbyData;
+        private readonly int maxPlayers = 4;
 
         // Property that returns if the player is the host
         public bool IsHost => localLobbyPlayerData.Id == LobbyManager.instance.GetHostId(); 
@@ -34,7 +36,7 @@ namespace Game{
             lobbyData = new LobbyData();
             lobbyData.Inizialize(); // Update when the LobbyData class is updated
 
-            bool succeeded = await LobbyManager.instance.CreateLobby(4, localLobbyPlayerData.Serialize(), lobbyData.Serialize());
+            bool succeeded = await LobbyManager.instance.CreateLobby(maxPlayers, localLobbyPlayerData.Serialize(), lobbyData.Serialize());
             return succeeded;
         }
 
@@ -77,6 +79,21 @@ namespace Game{
         public List<LobbyPlayerData> GetPlayers()
         {
             return lobbyPlayerDatas;
+        }
+
+        // Initiates the game start process. This method handles the allocation of necessary network resources for the game and updates lobby and player data accordingly
+        public async Task StartGame()
+        {
+            string joinRelayCode = await RelayManager.instance.CreateRelay(maxPlayers);
+
+            lobbyData.SetRelayJoinCode(joinRelayCode);
+            await LobbyManager.instance.UpdateLobbyData(lobbyData.Serialize());
+
+            string allocationId = RelayManager.instance.GetAllocationId();
+            string connectionData = RelayManager.instance.GetConnectionData();
+            await LobbyManager.instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
+        
+            SceneManager.LoadSceneAsync("Game");
         }
     }
 }
