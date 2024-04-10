@@ -9,6 +9,12 @@ namespace GameFramework.Core.Data{
     {
         private string relayJoinCode;
 
+        // Property for set or return the relay join code
+        public string RelayJoinCode {
+            get => relayJoinCode; 
+            set => relayJoinCode = value; 
+        }
+
         // Method to initialize lobby data
         public void Inizialize(){
 
@@ -30,12 +36,6 @@ namespace GameFramework.Core.Data{
             return new Dictionary<string, string>(){
                 {"RelayJoinCode", relayJoinCode}
             };
-        }
-
-        // Method to set the relay join code
-        public void SetRelayJoinCode(string code)
-        {
-            relayJoinCode = code;
         }
     }
 }

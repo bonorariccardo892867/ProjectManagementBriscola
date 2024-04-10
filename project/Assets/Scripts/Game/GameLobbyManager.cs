@@ -54,7 +54,7 @@ namespace Game{
         }
 
         // Event handler for lobby update events
-        private void OnLobbyUpdated(Lobby lobby)
+        private async void OnLobbyUpdated(Lobby lobby)
         {
             List<Dictionary<string, PlayerDataObject>> playerData = LobbyManager.instance.GetPlayersData();
             lobbyPlayerDatas.Clear();
@@ -73,6 +73,11 @@ namespace Game{
             lobbyData.Inizialize(lobby.Data);
 
             Events.LobbyEvents.OnLobbyUpdated?.Invoke();
+
+            if(lobbyData.RelayJoinCode != default){
+                await JoinRelayServer(lobbyData.RelayJoinCode);
+                SceneManager.LoadSceneAsync("Game");
+            }
         }
 
         // Method to get the list of lobby players
@@ -86,7 +91,7 @@ namespace Game{
         {
             string joinRelayCode = await RelayManager.instance.CreateRelay(maxPlayers);
 
-            lobbyData.SetRelayJoinCode(joinRelayCode);
+            lobbyData.RelayJoinCode = joinRelayCode;
             await LobbyManager.instance.UpdateLobbyData(lobbyData.Serialize());
 
             string allocationId = RelayManager.instance.GetAllocationId();
@@ -94,6 +99,15 @@ namespace Game{
             await LobbyManager.instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
         
             SceneManager.LoadSceneAsync("Game");
+        }
+
+        private async Task<bool> JoinRelayServer(string relayJoinCode)
+        {
+            string allocationId = RelayManager.instance.GetAllocationId();
+            string connectionData = RelayManager.instance.GetConnectionData();
+            await LobbyManager.instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
+            await RelayManager.instance.JoinRelay(relayJoinCode);
+            return true;
         }
     }
 }

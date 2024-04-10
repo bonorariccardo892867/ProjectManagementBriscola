@@ -26,7 +26,7 @@ namespace Game{
         }
 
         void Update(){
-            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 4)
+            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 2)
                 startButton.gameObject.SetActive(false);
         }
 
