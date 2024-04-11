@@ -26,8 +26,11 @@ namespace Game{
         }
 
         void Update(){
-            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 2)
+            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 4)
                 startButton.gameObject.SetActive(false);
+            else{
+                startButton.gameObject.SetActive(true);
+            }
         }
 
         // Method called when the start button is clicked
