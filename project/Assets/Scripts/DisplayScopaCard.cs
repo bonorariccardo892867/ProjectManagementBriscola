@@ -11,6 +11,8 @@ public class DisplayScopaCard : MonoBehaviour
     public Sprite spriteImg;
     //
     public Image artImg; 
+    public bool cardBack;
+    public static bool staticCardBack;
 
 
     // Start is called before the first frame update
@@ -27,7 +29,7 @@ public class DisplayScopaCard : MonoBehaviour
     // Update is called once per frame
     void Update()
 {
-    
+    staticCardBack = cardBack;   
 
 }
 }
