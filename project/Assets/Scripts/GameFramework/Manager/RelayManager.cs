@@ -10,11 +10,19 @@ using UnityEngine;
 namespace GameFramework.Core.GameFramework.Manager{
     public class RelayManager : Singleton<RelayManager>
     {
+        private bool isHost = false;
         private string joinCode;
         private string ip;
         private int port;
+        private byte[] key;
         private byte[] connectionData;
+        private byte[] hostConnectionData;
         private System.Guid allocationId;
+        private byte[] allocationIdBytes;
+
+        public bool IsHost{
+            get {return isHost;}
+        }
 
         // Creates a relay for network communication with a maximum number of connections
         public async Task<string> CreateRelay(int maxConnection){
@@ -25,8 +33,12 @@ namespace GameFramework.Core.GameFramework.Manager{
             ip = dtlsEnpoint.Host;
             port = dtlsEnpoint.Port;
 
+            isHost = true;
+
             allocationId = allocation.AllocationId;
+            allocationIdBytes = allocation.AllocationIdBytes;
             connectionData = allocation.ConnectionData;
+            key = allocation.Key;
             
             return joinCode;
         }
@@ -41,7 +53,10 @@ namespace GameFramework.Core.GameFramework.Manager{
             port = dtlsEnpoint.Port;
 
             allocationId = allocation.AllocationId;
+            allocationIdBytes = allocation.AllocationIdBytes;
             connectionData = allocation.ConnectionData;
+            hostConnectionData = allocation.HostConnectionData;
+            key = allocation.Key;
 
             return true;
         }
@@ -56,6 +71,14 @@ namespace GameFramework.Core.GameFramework.Manager{
         public string GetConnectionData()
         {
             return connectionData.ToString();
+        }
+
+        public (byte[] AllocationId, byte[] Key, byte[] ConnectionData, string dtlsAddress, int dtlsPort) GetHostConnectionInfo(){
+            return (allocationIdBytes, key, connectionData, ip, port);
+        }
+
+        public (byte[] AllocationId, byte[] Key, byte[] ConnectionData, byte[] HostConnectionData, string dtlsAddress, int dtlsPort) GetClientConnectionInfo(){
+            return (allocationIdBytes, key, connectionData, hostConnectionData, ip, port);
         }
     }
 }
