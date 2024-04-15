@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private void ConnectionApproval(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
     {
         response.Approved = true;
-        response.CreatePlayerObject = true;
+        response.CreatePlayerObject = false;
         response.Pending = false;
     }
 }
