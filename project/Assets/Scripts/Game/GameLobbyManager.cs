@@ -8,6 +8,7 @@ using GameFramework.Core.GameFramework.Manager;
 using GameFramework.Events;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Game{
@@ -75,6 +76,7 @@ namespace Game{
 
             Events.LobbyEvents.OnLobbyUpdated?.Invoke();
 
+            Debug.Log(inGame);
             if(lobbyData.RelayJoinCode != default && !inGame){
                 await JoinRelayServer(lobbyData.RelayJoinCode);
                 SceneManager.LoadSceneAsync("Game");
@@ -106,10 +108,10 @@ namespace Game{
         private async Task<bool> JoinRelayServer(string relayJoinCode)
         {
             inGame = true;
+            await RelayManager.instance.JoinRelay(relayJoinCode);
             string allocationId = RelayManager.instance.GetAllocationId();
             string connectionData = RelayManager.instance.GetConnectionData();
             await LobbyManager.instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
-            await RelayManager.instance.JoinRelay(relayJoinCode);
             return true;
         }
 

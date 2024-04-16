@@ -176,7 +176,7 @@ namespace GameFramework.Core.GameFramework.Manager{
             Disconnection();
         }
 
-        public async void Disconnection()
+        public void Disconnection()
         {
             if (lobby != null)
             {
@@ -184,12 +184,12 @@ namespace GameFramework.Core.GameFramework.Manager{
                 {
                     StopCoroutine(heartbeatCoroutine);
                     StopCoroutine(refreshLobbyCoroutine);
-                    await LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
+                    LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
                 }
                 else
                 {
                     StopCoroutine(refreshLobbyCoroutine);
-                    await LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
+                    LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
                 }
             }
         }

@@ -33,7 +33,7 @@ namespace Game{
         }
 
         void Update(){
-            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 1)
+            if(!GameLobbyManager.instance.IsHost || LobbyManager.instance.NumberOfPlayers != 2)
                 startButton.gameObject.SetActive(false);
             else{
                 startButton.gameObject.SetActive(true);
