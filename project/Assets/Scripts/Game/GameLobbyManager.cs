@@ -76,6 +76,9 @@ namespace Game{
 
             Events.LobbyEvents.OnLobbyUpdated?.Invoke();
 
+            if(LobbyManager.instance.GetHostId() == AuthenticationService.Instance.PlayerId && LobbyManager.instance.heartbeatCoroutine == null)
+                LobbyManager.instance.heartbeatCoroutine = StartCoroutine(LobbyManager.instance.HeartbeatLobbyCoroutine(lobby.Id, 6f));
+
             if(lobbyData.RelayJoinCode != default && !inGame){
                 await JoinRelayServer(lobbyData.RelayJoinCode);
                 SceneManager.LoadSceneAsync("Game");

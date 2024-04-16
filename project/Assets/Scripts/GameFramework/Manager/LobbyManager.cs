@@ -14,8 +14,8 @@ namespace GameFramework.Core.GameFramework.Manager{
     public class LobbyManager: Singleton<LobbyManager>{
 
         private Lobby lobby;
-        private Coroutine heartbeatCoroutine;
-        private Coroutine refreshLobbyCoroutine;
+        public Coroutine heartbeatCoroutine;
+        public Coroutine refreshLobbyCoroutine;
 
         // Property that returns the lobby
         public Lobby Lobby{
@@ -54,9 +54,10 @@ namespace GameFramework.Core.GameFramework.Manager{
         }
 
         // Coroutine for sending periodic heartbeat pings to the lobby
-        private IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
+        public IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
         {
             while(true){
+                Debug.Log("Ping");
                 LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
                 yield return new WaitForSecondsRealtime(waitTimeSeconds);
             }
