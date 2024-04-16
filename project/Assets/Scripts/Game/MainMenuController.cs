@@ -1,3 +1,4 @@
+using System;
 using Game;
 using TMPro;
 using UnityEngine;
@@ -13,18 +14,23 @@ namespace Game{
         [SerializeField] private Button hostButton;
         [SerializeField] private Button joinButton;
         [SerializeField] private Button submitButton;
+        [SerializeField] private Button backButton;
         [SerializeField] private TextMeshProUGUI codeText;
 
         private void OnEnable(){
             hostButton.onClick.AddListener(OnHostClicked);
             joinButton.onClick.AddListener(OnJoinClicked);
             submitButton.onClick.AddListener(OnSubmitClicked);
+            backButton.onClick.AddListener(OnBackClicked);
+
         }
 
         private void OnDisable(){
             hostButton.onClick.RemoveListener(OnHostClicked);
             joinButton.onClick.RemoveListener(OnJoinClicked);
             submitButton.onClick.RemoveListener(OnSubmitClicked);
+            backButton.onClick.RemoveListener(OnBackClicked);
+
         }
 
         // Method called when the join button is clicked
@@ -48,6 +54,12 @@ namespace Game{
             bool succeeded = await GameLobbyManager.instance.JoinLobby(code);
             if(succeeded)
                 SceneManager.LoadSceneAsync("Lobby");
+        }
+
+        private void OnBackClicked()
+        {
+            mainScreen.SetActive(true);
+            joinScreen.SetActive(false);
         }
     }
 }

@@ -112,5 +112,11 @@ namespace Game{
             await RelayManager.instance.JoinRelay(relayJoinCode);
             return true;
         }
+
+        public void GoBackToLobby()
+        {
+            inGame = false;
+            SceneManager.LoadSceneAsync("MainMenu");
+        }
     }
 }

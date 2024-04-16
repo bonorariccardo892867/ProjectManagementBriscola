@@ -173,8 +173,25 @@ namespace GameFramework.Core.GameFramework.Manager{
 
         // Method to delete the lobby when the application is quitting
         public void OnApplicationQuit() {
-            if(lobby != null && lobby.HostId == AuthenticationService.Instance.PlayerId)
-                LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
+            Disconnection();
+        }
+
+        public async void Disconnection()
+        {
+            if (lobby != null)
+            {
+                if (lobby.HostId == AuthenticationService.Instance.PlayerId)
+                {
+                    StopCoroutine(heartbeatCoroutine);
+                    StopCoroutine(refreshLobbyCoroutine);
+                    await LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
+                }
+                else
+                {
+                    StopCoroutine(refreshLobbyCoroutine);
+                    await LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
+                }
+            }
         }
     }
 }
