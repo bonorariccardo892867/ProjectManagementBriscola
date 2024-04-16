@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private void OnClientDisconnect(ulong clientId)
     {
         if(NetworkManager.Singleton.LocalClientId == clientId){
-            Debug.Log("I'm not connected anymore");
+            LobbyManager.instance.Disconnection();
             NetworkManager.Singleton.Shutdown();
         }
     }

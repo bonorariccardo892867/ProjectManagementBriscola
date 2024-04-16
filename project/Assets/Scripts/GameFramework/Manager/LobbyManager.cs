@@ -7,6 +7,7 @@ using GameFramework.Events;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GameFramework.Core.GameFramework.Manager{
@@ -15,6 +16,11 @@ namespace GameFramework.Core.GameFramework.Manager{
         private Lobby lobby;
         private Coroutine heartbeatCoroutine;
         private Coroutine refreshLobbyCoroutine;
+
+        // Property that returns the lobby
+        public Lobby Lobby{
+            get => lobby;
+        }
 
         // Property that returns the ID of the lobby
         public string Id => lobby.Id;
@@ -180,17 +186,14 @@ namespace GameFramework.Core.GameFramework.Manager{
         {
             if (lobby != null)
             {
-                if (lobby.HostId == AuthenticationService.Instance.PlayerId)
-                {
-                    StopCoroutine(heartbeatCoroutine);
-                    StopCoroutine(refreshLobbyCoroutine);
+                StopAllCoroutines();
+                if(NumberOfPlayers == 1){
+                    LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
                     LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
-                }
-                else
-                {
-                    StopCoroutine(refreshLobbyCoroutine);
+                }else{
                     LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
                 }
+                
             }
         }
     }

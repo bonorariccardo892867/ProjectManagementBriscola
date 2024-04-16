@@ -76,7 +76,6 @@ namespace Game{
 
             Events.LobbyEvents.OnLobbyUpdated?.Invoke();
 
-            Debug.Log(inGame);
             if(lobbyData.RelayJoinCode != default && !inGame){
                 await JoinRelayServer(lobbyData.RelayJoinCode);
                 SceneManager.LoadSceneAsync("Game");
