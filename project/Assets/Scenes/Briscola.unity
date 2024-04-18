@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 650627977}
   - component: {fileID: 650627976}
   m_Layer: 5
-  m_Name: DropZone (2)
+  m_Name: PlayerArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -425,6 +425,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650627974}
   m_CullTransparentMesh: 1
+--- !u!1 &779561015 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7252190230056789154, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
+  m_PrefabInstance: {fileID: 588973080851131797}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &796838155
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -574,6 +579,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
+--- !u!1 &1056297280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7252190230056789154, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
+  m_PrefabInstance: {fileID: 796838155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1056297281 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4705990436885798503, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
@@ -584,7 +594,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -1202199987063060341, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
   m_PrefabInstance: {fileID: 796838155}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1056297280}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d52ad2b2e8cbcc488472acc057c6ff1, type: 3}
@@ -677,6 +687,7 @@ GameObject:
   - component: {fileID: 1197170061}
   - component: {fileID: 1197170060}
   - component: {fileID: 1197170059}
+  - component: {fileID: 1197170062}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -747,7 +758,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1197170060}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1197170062}
+        m_TargetAssemblyTypeName: DrawCards, Assembly-CSharp
+        m_MethodName: OnCLick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1197170060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,6 +809,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197170057}
   m_CullTransparentMesh: 1
+--- !u!114 &1197170062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197170057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca19c7e25b6668a4a84dcb92835d8a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Card1: {fileID: 779561015}
+  Card2: {fileID: 1056297280}
+  PlayerArea: {fileID: 650627974}
 --- !u!1 &1604363784
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +836,7 @@ GameObject:
   - component: {fileID: 1604363787}
   - component: {fileID: 1604363786}
   m_Layer: 5
-  m_Name: DropZone (1)
+  m_Name: OtherArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -874,7 +912,7 @@ GameObject:
   - component: {fileID: 1696379242}
   - component: {fileID: 1696379241}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1195,7 +1233,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -1202199987063060341, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
   m_PrefabInstance: {fileID: 588973080851131797}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 779561015}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d52ad2b2e8cbcc488472acc057c6ff1, type: 3}

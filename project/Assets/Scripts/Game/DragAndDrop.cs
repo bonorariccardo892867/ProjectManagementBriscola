@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
 {
+    public GameObject Canvas;
     private bool isDragging = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Canvas = GameObject.Find("Main Canvas");
     }
     public void StartDrag(){
         isDragging=true;
@@ -21,6 +22,7 @@ public class DragAndDrop : MonoBehaviour
     {
         if(isDragging){
             transform.position = new Vector2(Input.mousePosition.x,Input.mousePosition.y);
+            transform.SetParent(Canvas.transform,true);
         }
     }
 }
