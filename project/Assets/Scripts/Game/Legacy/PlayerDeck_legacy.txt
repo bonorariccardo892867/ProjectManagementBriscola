@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerDeck : MonoBehaviour
+{
+    public List<ScopaCard> deck = new List<ScopaCard>();
+    public ScopaCard container;
+    public static int deckSize;
+    //public static List<ScopaCard> staticDeck = new List<ScopaCard>();
+    public List<GameObject> cardDeck;
+    public GameObject 
+
+    //public GameObject[] clones;
+    public GameObject Hand;
+    //public GameObject CardToHand;
+    // Start is called before the first frame update
+    void Start()
+    {
+        deckSize = deck.Count;
+        for (int i=0; i<deck.Count;i++){
+            deck[i] = ScopaCardDatabase.cardList[i];
+        }
+        //StartCoroutine(StartGame());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //staticDeck = deck;
+        HideDeckCards();
+    }
+    void HideDeckCards(){
+        for (int i = 0; i < deck.Count; i++){
+            cardDeck[i].SetActive(deck.Count>i*(40/deck.Count));
+        }
+    }
+/*
+    IEnumerator StartGame(){
+        for (int i = 0; i <=11; i++){
+            yield return new WaitForSeconds(i);
+            Instantiate(CardToHand,transform.position,transform.rotation);
+        } 
+    }*/
+    public void Shuffle(){
+        for (int i=0;i<deck.Count;i++){
+            container = deck[i];
+            int randomIndex = Random.Range(i,deck.Count);
+            deck[i]=deck[randomIndex];
+            deck[randomIndex] = container;
+        }
+    }
+}
