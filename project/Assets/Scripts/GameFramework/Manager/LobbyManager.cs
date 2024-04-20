@@ -7,14 +7,20 @@ using GameFramework.Events;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GameFramework.Core.GameFramework.Manager{
     public class LobbyManager: Singleton<LobbyManager>{
 
         private Lobby lobby;
-        private Coroutine heartbeatCoroutine;
-        private Coroutine refreshLobbyCoroutine;
+        public Coroutine heartbeatCoroutine;
+        public Coroutine refreshLobbyCoroutine;
+
+        // Property that returns the lobby
+        public Lobby Lobby{
+            get => lobby;
+        }
 
         // Property that returns the ID of the lobby
         public string Id => lobby.Id;
@@ -48,9 +54,10 @@ namespace GameFramework.Core.GameFramework.Manager{
         }
 
         // Coroutine for sending periodic heartbeat pings to the lobby
-        private IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
+        public IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
         {
             while(true){
+                Debug.Log("Ping");
                 LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
                 yield return new WaitForSecondsRealtime(waitTimeSeconds);
             }
@@ -173,8 +180,22 @@ namespace GameFramework.Core.GameFramework.Manager{
 
         // Method to delete the lobby when the application is quitting
         public void OnApplicationQuit() {
-            if(lobby != null && lobby.HostId == AuthenticationService.Instance.PlayerId)
-                LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
+            Disconnection();
+        }
+
+        public void Disconnection()
+        {
+            if (lobby != null)
+            {
+                StopAllCoroutines();
+                if(NumberOfPlayers == 1){
+                    LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
+                    LobbyService.Instance.DeleteLobbyAsync(lobby.Id);
+                }else{
+                    LobbyService.Instance.RemovePlayerAsync(lobby.Id, AuthenticationService.Instance.PlayerId);
+                }
+                
+            }
         }
     }
 }

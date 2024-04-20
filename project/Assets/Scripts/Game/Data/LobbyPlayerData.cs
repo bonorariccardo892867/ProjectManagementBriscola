@@ -15,6 +15,7 @@ namespace GameFramework.Core.Data{
         // Property to access the player's gamertag
         public string Gamertag => gamerTag;
 
+
         // Method to initialize player data
         public void Inizialize(string idPlayer, string gamerTagPlayer){
             id = idPlayer;
