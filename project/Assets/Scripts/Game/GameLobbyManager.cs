@@ -16,7 +16,7 @@ namespace Game{
         private List<LobbyPlayerData> lobbyPlayerDatas = new List<LobbyPlayerData>();
         private LobbyPlayerData localLobbyPlayerData;
         private LobbyData lobbyData;
-        private readonly int maxPlayers = 4;
+        private readonly int maxPlayers = 2;
         private bool inGame = false;
 
         // Property that returns if the player is the host
@@ -104,7 +104,7 @@ namespace Game{
             string connectionData = RelayManager.instance.GetConnectionData();
             await LobbyManager.instance.UpdatePlayerData(localLobbyPlayerData.Id, localLobbyPlayerData.Serialize(), allocationId, connectionData);
         
-            SceneManager.LoadSceneAsync("Game");
+            SceneManager.LoadSceneAsync("Briscola");
         }
 
         private async Task<bool> JoinRelayServer(string relayJoinCode)

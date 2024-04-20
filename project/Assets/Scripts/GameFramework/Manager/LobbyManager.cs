@@ -57,7 +57,6 @@ namespace GameFramework.Core.GameFramework.Manager{
         public IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
         {
             while(true){
-                Debug.Log("Ping");
                 LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
                 yield return new WaitForSecondsRealtime(waitTimeSeconds);
             }
