@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 7152110622619713186}
   - component: {fileID: -3939083805876402011}
   - component: {fileID: -2681319708367882954}
+  - component: {fileID: 742004899697049687}
   m_Layer: 6
   m_Name: Card
   m_TagString: Untagged
@@ -270,3 +271,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &742004899697049687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252190230056789154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2710412013
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
