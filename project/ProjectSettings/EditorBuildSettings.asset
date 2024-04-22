@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 4aeb93b6983ef994fbb5d2ab773c959c
   - enabled: 1
-    path: Assets/Scenes/Game.unity
-    guid: 966f6748c96829544b532b77be967146
+    path: Assets/Scenes/Briscola.unity
+    guid: b23b544c7a83bca47b70f51b51031679
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: f9afedd172b72054b87feeb53fe2a360, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: a9710d57a9e245041a0c8b30b38804e7, type: 2}
