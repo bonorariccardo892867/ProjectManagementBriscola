@@ -30,12 +30,24 @@ public class PlayerManager : NetworkBehaviour {
             RpcShowCard(card,"dealt");
         }
     }
+    public void PlayCard(GameObject card){
+        CmdPlayCard(card);
+    }
+    [Command]
+    void CmdPlayCard(GameObject card){
+        RpcShowCard(card,"played");
+    }
     [ClientRpc]
     private void RpcShowCard(GameObject card, string type){
         if (type == "dealt"){
-            card.transform.SetParent(PlayerArea.transform,false);
+            if (isOwned){
+                card.transform.SetParent(PlayerArea.transform,false);
+            }else{
+                card.transform.SetParent(EnemyArea.transform,false);
+                card.GetComponent<CardFlipper>().Flip();
+            }
         }else if (type == "played"){
-            card.transform.SetParent(EnemyArea.transform,false);
+           card.transform.SetParent(DropZone.transform,false);
         }
     }
 }
