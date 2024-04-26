@@ -77,4 +77,18 @@ public class PlayerManager : NetworkBehaviour {
     {
         Debug.Log("targeted other card");
     }
+
+    [Command]
+    public void CmdIncrementClick(GameObject card)
+    {
+        RpcIncrementClick(card);
+    }
+
+    [ClientRpc]
+    void RpcIncrementClick(GameObject card)
+    {
+        card.GetComponent<IncrementClick>().NumberOfClicks++;
+        Debug.Log("This card has been clicked" + card.GetComponent<IncrementClick>().NumberOfClicks + " times!");
+    }
+
 }
