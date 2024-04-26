@@ -50,4 +50,31 @@ public class PlayerManager : NetworkBehaviour {
            card.transform.SetParent(DropZone.transform,false);
         }
     }
+
+
+    [Command]
+    public void CmdTargetSelfCard()
+    {
+        TargetSelfCard();
+    }
+
+    [Command]
+    public void CmdTargetOtherCard(GameObject target) {
+        NetworkIdentity opponentIdentity = target.GetComponent<NetworkIdentity>();
+        TargetOtherCard(opponentIdentity.connectionToClient);
+    }
+
+    [TargetRpc]
+
+    private void TargetSelfCard()
+    {
+        Debug.Log("target self Card");
+    } 
+
+    [TargetRpc]
+
+    private void TargetOtherCard(NetworkConnection target)
+    {
+        Debug.Log("targeted other card");
+    }
 }

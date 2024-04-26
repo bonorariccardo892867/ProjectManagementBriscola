@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 742004899697049687}
   - component: {fileID: -7647175077926776193}
   - component: {fileID: 809028047369545025}
+  - component: {fileID: -5492246099216276070}
   m_Layer: 6
   m_Name: Card
   m_TagString: Untagged
@@ -264,6 +265,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -5492246099216276070}
+          m_TargetAssemblyTypeName: TargetClick, Assembly-CSharp
+          m_MethodName: OnTargetClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!61 &-3939083805876402011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -384,3 +401,19 @@ MonoBehaviour:
   syncInterval: 0
   canvas: {fileID: 0}
   ZoomCard: {fileID: 6278762639295543701, guid: 1da3d7f1f841efc478fd03e8033ffab5, type: 3}
+--- !u!114 &-5492246099216276070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252190230056789154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50668067e2ee9454dbd9a9b18f1a935c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  PlayerManager: {fileID: 0}
