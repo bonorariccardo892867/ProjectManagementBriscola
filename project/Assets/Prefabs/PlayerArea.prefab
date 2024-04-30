@@ -98,7 +98,7 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 1
-  m_CellSize: {x: 70, y: 100}
+  m_CellSize: {x: 150, y: 210}
   m_Spacing: {x: 20, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
@@ -134,7 +134,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  card1: {fileID: 7252190230056789154, guid: 5d66cf52dd5f12e4d9218ce439a9830a, type: 3}
+  cards: []
   PlayerArea: {fileID: 0}
   EnemyArea: {fileID: 8783777599315817932, guid: a6f8377c946970c4b924f678c331422f, type: 3}
   DropZone: {fileID: 3409002561299386185, guid: 521a6a6187ac7164a9c6d63a3a55f3e7, type: 3}

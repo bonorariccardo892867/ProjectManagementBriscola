@@ -9,12 +9,12 @@ public class CardFlipper : MonoBehaviour
     public Sprite CardBack;
     // Start is called before the first frame update
     public void Flip(){
-        Sprite currentSprite = gameObject.GetComponent<Image>().sprite;
+        Sprite currentSprite = gameObject.transform.Find("Image").GetComponent<Image>().sprite;
 
         if (currentSprite == CardFront){
-            gameObject.GetComponent<Image>().sprite = CardBack;
+            gameObject.transform.Find("Image").GetComponent<Image>().sprite = CardBack;
         }else{
-            gameObject.GetComponent<Image>().sprite = CardFront;
+            gameObject.transform.Find("Image").GetComponent<Image>().sprite = CardFront;
         }
     }
 }

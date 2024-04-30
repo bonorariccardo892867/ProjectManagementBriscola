@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 65, y: 95}
+  m_SizeDelta: {x: 145, y: 205}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7859773781614039751
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 076110aa83afb0e4eb11aa00aa587049, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -95,8 +95,9 @@ GameObject:
   - component: {fileID: 809028047369545025}
   - component: {fileID: -5492246099216276070}
   - component: {fileID: 4979958208565273222}
+  - component: {fileID: 1062074812988830340}
   m_Layer: 6
-  m_Name: Card
+  m_Name: Card 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +121,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -175.75}
-  m_SizeDelta: {x: 70, y: 100}
+  m_SizeDelta: {x: 150, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3545983145458404498
 CanvasRenderer:
@@ -150,7 +151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 076110aa83afb0e4eb11aa00aa587049, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -379,7 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2710412013
+  _assetId: 3442159870
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -395,8 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55436575b2dfa1488bd19752883f839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardFront: {fileID: 21300000, guid: 4f885540d3e94f04981c719ff7a970ef, type: 3}
-  CardBack: {fileID: 21300000, guid: 6cccfcaf54d547c4f988724451707f92, type: 3}
+  CardFront: {fileID: 21300000, guid: 076110aa83afb0e4eb11aa00aa587049, type: 3}
+  CardBack: {fileID: 21300000, guid: c7bf45f0ef95bed4491c5809fc6bf484, type: 3}
 --- !u!114 &809028047369545025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,3 +448,18 @@ MonoBehaviour:
   syncInterval: 0
   PlayerManager: {fileID: 0}
   NumberOfClicks: 0
+--- !u!114 &1062074812988830340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7252190230056789154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14a12ec9f2ed37479f06bfe3cda528c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  number: 9
+  suit: 0
+  score: 10
