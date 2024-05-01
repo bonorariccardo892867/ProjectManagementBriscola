@@ -100,7 +100,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  cards:
+  PlayerArea: {fileID: 0}
+  EnemyArea: {fileID: 0}
+  DropZone: {fileID: 0}
+  cards_:
   - {fileID: 7252190230056789154, guid: ee40633d3e0a06b4381c0fff66f1c1d0, type: 3}
   - {fileID: 7252190230056789154, guid: 780d0bd7fbb084f468cdf7280928e934, type: 3}
   - {fileID: 7252190230056789154, guid: d3cf284ebbc1656489f8cd64f85b4d1f, type: 3}
@@ -141,6 +144,3 @@ MonoBehaviour:
   - {fileID: 7252190230056789154, guid: 1cf19b3bf0bc2e04581d4a6cdd593262, type: 3}
   - {fileID: 7252190230056789154, guid: d4a472d9e03b1a648bf090ffa4102d11, type: 3}
   - {fileID: 7252190230056789154, guid: 740f869afe10c5046b4336322cfe361d, type: 3}
-  PlayerArea: {fileID: 0}
-  EnemyArea: {fileID: 0}
-  DropZone: {fileID: 0}

@@ -5,10 +5,14 @@ using Mirror;
 
 
 public class PlayerManager : NetworkBehaviour {
-    public List <GameObject> cards = new List<GameObject>();
     public GameObject PlayerArea;
     public GameObject EnemyArea;
     public GameObject DropZone;
+    public List<GameObject> cards_ = new List<GameObject>();
+
+    public int DeckIndex{
+        get {return cards_.Count-1;}
+    }
 
     public override void OnStartClient(){
         base.OnStartClient();
@@ -16,13 +20,29 @@ public class PlayerManager : NetworkBehaviour {
         EnemyArea = GameObject.Find("OtherArea");
         DropZone = GameObject.Find("DropZone");
     }
-    
+
+    public override void OnStartServer(){
+        base.OnStartServer();
+    }
+
+    private void Shuffle(){
+        int n = cards_.Count;
+        while(n > 1){
+            int k = (int)Mathf.Floor(Random.value * (n--));
+            GameObject temp = cards_[n];
+            cards_[n] = cards_[k];
+            cards_[k] = temp;
+        }
+    }
+
     [Command]
-    public void CmdDealCards(){
-        for (int i=0;i<3;i++){
-            GameObject card = Instantiate(cards[Random.Range(0,cards.Count)],new Vector2(0,0),Quaternion.identity);
-            NetworkServer.Spawn(card,connectionToClient);
-            RpcShowCard(card,"dealt");
+    public void CmdDealCards(int count){
+        if(DeckIndex >= 0){
+            for (int i=0;i<count;i++){
+                GameObject card = Instantiate(cards_[Random.Range(0, DeckIndex)], new Vector2(0, 0), Quaternion.identity);
+                NetworkServer.Spawn(card, connectionToClient);
+                RpcShowCard(card,"dealt");
+            }
         }
     }
 
@@ -31,7 +51,7 @@ public class PlayerManager : NetworkBehaviour {
     }
 
     [Command]
-    void CmdPlayCard(GameObject card){
+    private void CmdPlayCard(GameObject card){
         RpcShowCard(card,"played");
     }
 
@@ -45,8 +65,8 @@ public class PlayerManager : NetworkBehaviour {
                 card.GetComponent<CardFlipper>().Flip();
             }
         }else if (type == "played"){
-           card.transform.SetParent(DropZone.transform,false);
-           if(!isOwned)
+            card.transform.SetParent(DropZone.transform,false);
+            if(!isOwned)
                 card.GetComponent<CardFlipper>().Flip();
         }
     }
@@ -65,7 +85,6 @@ public class PlayerManager : NetworkBehaviour {
     }
 
     [TargetRpc]
-
     private void TargetSelfCard()
     {
         Debug.Log("target self Card");
@@ -85,7 +104,7 @@ public class PlayerManager : NetworkBehaviour {
     }
 
     [ClientRpc]
-    void RpcIncrementClick(GameObject card)
+    private void RpcIncrementClick(GameObject card)
     {
         card.GetComponent<IncrementClick>().NumberOfClicks++;
         Debug.Log("This card has been clicked" + card.GetComponent<IncrementClick>().NumberOfClicks + " times!");
