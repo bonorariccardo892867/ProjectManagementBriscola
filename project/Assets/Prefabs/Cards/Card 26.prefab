@@ -92,9 +92,6 @@ GameObject:
   - component: {fileID: -2681319708367882954}
   - component: {fileID: 742004899697049687}
   - component: {fileID: -7647175077926776193}
-  - component: {fileID: 809028047369545025}
-  - component: {fileID: -5492246099216276070}
-  - component: {fileID: 4979958208565273222}
   - component: {fileID: 1062074812988830340}
   m_Layer: 6
   m_Name: Card 26
@@ -207,18 +204,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 809028047369545025}
-          m_TargetAssemblyTypeName: CardZoom, Assembly-CSharp
-          m_MethodName: OnHoverExit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 14
     callback:
       m_PersistentCalls:
@@ -226,66 +211,6 @@ MonoBehaviour:
         - m_Target: {fileID: -1202199987063060341}
           m_TargetAssemblyTypeName: DragAndDrop, Assembly-CSharp
           m_MethodName: EndDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 12
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 809028047369545025}
-          m_TargetAssemblyTypeName: CardZoom, Assembly-CSharp
-          m_MethodName: OnHoverPointer
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 809028047369545025}
-          m_TargetAssemblyTypeName: CardZoom, Assembly-CSharp
-          m_MethodName: OnHoverExit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: -5492246099216276070}
-          m_TargetAssemblyTypeName: TargetClick, Assembly-CSharp
-          m_MethodName: OnTargetClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 4979958208565273222}
-          m_TargetAssemblyTypeName: IncrementClick, Assembly-CSharp
-          m_MethodName: IncrementClicks
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -398,56 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardFront: {fileID: 21300000, guid: d3e93554b817c1942a52951454637d35, type: 3}
   CardBack: {fileID: 21300000, guid: c7bf45f0ef95bed4491c5809fc6bf484, type: 3}
---- !u!114 &809028047369545025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7252190230056789154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49d13d2ff02496d4b9cf3dcdf6ea8df9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  canvas: {fileID: 0}
-  ZoomCard: {fileID: 6278762639295543701, guid: 1da3d7f1f841efc478fd03e8033ffab5, type: 3}
---- !u!114 &-5492246099216276070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7252190230056789154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50668067e2ee9454dbd9a9b18f1a935c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  PlayerManager: {fileID: 0}
---- !u!114 &4979958208565273222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7252190230056789154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816e6911a71fb7a4482328df5c3d5c8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  PlayerManager: {fileID: 0}
-  NumberOfClicks: 0
 --- !u!114 &1062074812988830340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14a12ec9f2ed37479f06bfe3cda528c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: 
   number: 4
   suit: 2
   score: 0
