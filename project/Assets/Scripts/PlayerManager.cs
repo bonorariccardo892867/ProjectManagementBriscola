@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 
 public class PlayerManager : NetworkBehaviour {
@@ -78,12 +79,13 @@ public class PlayerManager : NetworkBehaviour {
         Briscola = Instantiate(Briscola, position, Quaternion.identity);
         NetworkServer.Spawn(Briscola, connectionToClient);
 
-        RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name);
+        RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name, deckIndex+1);
     }
 
     [ClientRpc]
-    private void RpcSetBriscola(GameObject card, string spriteName){
+    private void RpcSetBriscola(GameObject card, string spriteName, int index){
         card.GetComponent<BriscolaScript>().BriscolaCard(Resources.Load<Sprite>("Sprite/" + spriteName));
+        card.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = index.ToString();
         card.transform.SetParent(GameObject.Find("Main Canvas").transform);
     }
 
