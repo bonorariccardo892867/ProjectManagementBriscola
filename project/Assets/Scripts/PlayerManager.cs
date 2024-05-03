@@ -8,6 +8,7 @@ public class PlayerManager : NetworkBehaviour {
     public GameObject PlayerArea;
     public GameObject EnemyArea;
     public GameObject DropZone;
+    public GameObject Briscola;
 
     // List of cards in the deck and deck index
     public List<GameObject> cards_ = new List<GameObject>();
@@ -16,6 +17,7 @@ public class PlayerManager : NetworkBehaviour {
     // Player identifier and whether the player is the winner
     public string player;
     private bool win;
+    private int briscolaSuit;
 
     public override void OnStartClient(){
         base.OnStartClient();
@@ -63,18 +65,26 @@ public class PlayerManager : NetworkBehaviour {
             }
             NetworkServer.Spawn(card, connectionToClient);
             RpcShowCard(card, "dealt", card.GetComponent<CardValues>().player);
-            //Add Briscola
         }
     }
 
-    // Method called when a player plays a card
-    public void PlayCard(GameObject card){
-        CmdPlayCard(card);
+    [Server]
+    public void SetBriscola(Vector2 position){
+        GameObject briscola = cards_[deckIndex];
+        cards_.RemoveAt(deckIndex);
+        cards_.Insert(0, briscola);
+        briscolaSuit = briscola.GetComponent<CardValues>().suit;
+
+        Briscola = Instantiate(Briscola, position, Quaternion.identity);
+        NetworkServer.Spawn(Briscola, connectionToClient);
+
+        RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name);
     }
 
-    [Command]
-    private void CmdPlayCard(GameObject card){
-        RpcShowCard(card, "played", card.GetComponent<CardValues>().player);
+    [ClientRpc]
+    private void RpcSetBriscola(GameObject card, string spriteName){
+        card.GetComponent<BriscolaScript>().BriscolaCard(Resources.Load<Sprite>("Sprite/" + spriteName));
+        card.transform.SetParent(GameObject.Find("Main Canvas").transform);
     }
 
     // Method to show the card on the game scene
@@ -92,5 +102,15 @@ public class PlayerManager : NetworkBehaviour {
             if(player_ != player)
                 card.GetComponent<CardFlipper>().Flip();
         }
+    }
+
+    // Method called when a player plays a card
+    public void PlayCard(GameObject card){
+        CmdPlayCard(card);
+    }
+
+    [Command]
+    private void CmdPlayCard(GameObject card){
+        RpcShowCard(card, "played", card.GetComponent<CardValues>().player);
     }
 }

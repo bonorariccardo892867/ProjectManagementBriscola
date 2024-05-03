@@ -16,5 +16,6 @@ public class DrawCards : NetworkBehaviour
 
         // Deal cards using the PlayerManager
         playerManager.DealCards();
+        playerManager.SetBriscola(transform.position);
     }
 }
