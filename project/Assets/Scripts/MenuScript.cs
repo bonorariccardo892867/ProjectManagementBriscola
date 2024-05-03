@@ -12,6 +12,7 @@ public class MenuScript : MonoBehaviour
     public GameObject menuPanel;
     public GameObject gamePanel;
     public GameObject joinPanel;
+    public GameObject profilePanel;
 
     // Function to start hosting a game
     public void Host()
@@ -20,6 +21,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(true);
+        profilePanel.SetActive(false);
     }
 
     // Function to set IP address for joining a game
@@ -33,6 +35,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(true);
         gamePanel.SetActive(false);
+        profilePanel.SetActive(false);
     }
 
     // Function to join a game
@@ -42,6 +45,17 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(true);
+        profilePanel.SetActive(false);
+    }
+
+    // Function to Profile section
+    public void Profile()
+    {
+        networkManager.StartClient();
+        menuPanel.SetActive(false);
+        joinPanel.SetActive(false);
+        gamePanel.SetActive(false);
+        profilePanel.SetActive(true);
     }
 
     // Function to go back to the main menu
@@ -49,6 +63,7 @@ public class MenuScript : MonoBehaviour
         joinPanel.SetActive(false);
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
+        profilePanel.SetActive(false);
     }
 
     // Function to stop hosting or disconnect from the server
@@ -72,6 +87,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
         joinPanel.SetActive(false);
+        profilePanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -86,12 +102,20 @@ public class MenuScript : MonoBehaviour
         {
             gamePanel.SetActive(false);
             menuPanel.SetActive(false);
+            profilePanel.SetActive(false);
+        }
+        else if (profilePanel.activeSelf)
+        {
+            gamePanel.SetActive(false);
+            menuPanel.SetActive(false);
+            joinPanel.SetActive(false);
         }
         else
         {
             gamePanel.SetActive(false);
             joinPanel.SetActive(false);
             menuPanel.SetActive(true);
+            profilePanel.SetActive(false);
         }
 
     }
