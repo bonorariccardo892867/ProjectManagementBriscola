@@ -13,11 +13,13 @@ public class DragAndDrop : NetworkBehaviour
     private Vector2 startposition;
     private GameObject dropZone;
     private bool isOverDropZone;
+    public GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
         Canvas = GameObject.Find("Main Canvas");
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Called when the card collides with another object
@@ -66,10 +68,12 @@ public class DragAndDrop : NetworkBehaviour
     void Update()
     {
         GameObject parent = transform.parent.gameObject;
-        if(!isDragging && parent != null && parent.name != "PlayerArea")
+        if ((!isDragging && parent != null && parent.name != "PlayerArea") || (gameObject.GetComponent<CardValues>().player != gm.turnsPlayed))
             isDraggable = false;
+        else
+            isDraggable = true;
 
-        if(isDragging){
+        if (isDragging){
             transform.position = new Vector2(Input.mousePosition.x,Input.mousePosition.y);
             transform.SetParent(Canvas.transform,true);
         }

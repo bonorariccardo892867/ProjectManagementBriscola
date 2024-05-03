@@ -4,8 +4,11 @@ using UnityEngine;
 using Mirror;
 
 public class GameManager : NetworkBehaviour{
-    public int turnsPlayed = 0;
-    public void updateTurnsPlayed(){
-        turnsPlayed++;
+    public string turnsPlayed;
+    public void UpdateTurnsPlayed(){
+        if (turnsPlayed == "P1")
+            turnsPlayed = "P2";
+        else
+            turnsPlayed = "P1";
     }
 }

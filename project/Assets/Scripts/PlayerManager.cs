@@ -10,6 +10,7 @@ public class PlayerManager : NetworkBehaviour {
     public GameObject EnemyArea;
     public GameObject DropZone;
     public GameObject Briscola;
+    public GameManager gm;
 
     // List of cards in the deck and deck index
     public List<GameObject> cards_ = new List<GameObject>();
@@ -26,7 +27,9 @@ public class PlayerManager : NetworkBehaviour {
         EnemyArea = GameObject.Find("OtherArea");
         DropZone = GameObject.Find("DropZone");
 
-        if(isServer){
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        if (isServer){
             win = true;
             player = "P1";
         }else{
@@ -93,6 +96,7 @@ public class PlayerManager : NetworkBehaviour {
     [ClientRpc]
     private void RpcShowCard(GameObject card, string type, string player_){
         if (type == "dealt"){
+            card.GetComponent<CardValues>().player = player_;
             if (player_ == player){
                 card.transform.SetParent(PlayerArea.transform,false);
             }else{
@@ -114,5 +118,22 @@ public class PlayerManager : NetworkBehaviour {
     [Command]
     private void CmdPlayCard(GameObject card){
         RpcShowCard(card, "played", card.GetComponent<CardValues>().player);
+        if (isServer)
+        {
+            UpdateTurnsPlayed();
+        }
+    }
+
+    [Server]
+    void UpdateTurnsPlayed()
+    {
+        RpcLogToClients(gm.turnsPlayed);
+    }
+
+    [ClientRpc]
+    void RpcLogToClients(string message)
+    {
+        gm.UpdateTurnsPlayed();
+        Debug.Log(gm.turnsPlayed);
     }
 }
