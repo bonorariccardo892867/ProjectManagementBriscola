@@ -51,7 +51,6 @@ public class MenuScript : MonoBehaviour
     // Function to Profile section
     public void Profile()
     {
-        networkManager.StartClient();
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(false);
