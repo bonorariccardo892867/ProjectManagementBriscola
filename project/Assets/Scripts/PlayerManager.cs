@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using TMPro;
+using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 
 public class PlayerManager : NetworkBehaviour {
@@ -127,11 +129,13 @@ public class PlayerManager : NetworkBehaviour {
     [Server]
     void UpdateTurnsPlayed()
     {
-        RpcLogToClients(gm.turnsPlayed);
+        if(DropZone.GetComponent<GridLayoutGroup>().transform.childCount == 2)
+            Debug.Log("PRESA");
+        RpcLogToClients();
     }
 
     [ClientRpc]
-    void RpcLogToClients(string message)
+    void RpcLogToClients()
     {
         gm.UpdateTurnsPlayed();
         Debug.Log(gm.turnsPlayed);
