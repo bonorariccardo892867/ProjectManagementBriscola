@@ -14,8 +14,12 @@ public class DrawCards : NetworkBehaviour
         NetworkIdentity networkIdentity = NetworkClient.connection.identity;
         playerManager = networkIdentity.GetComponent<PlayerManager>();
 
+        // Shuffle the deck twice when the server starts
+        for(int i=0; i<10; i++)
+            playerManager.Shuffle();
+
         // Deal cards using the PlayerManager
-        playerManager.DealCards();
+        playerManager.DealCards(6);
         playerManager.SetBriscola(transform.position);
     }
 }

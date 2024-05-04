@@ -5,6 +5,7 @@ using Mirror;
 using TMPro;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 
 public class PlayerManager : NetworkBehaviour {
@@ -40,16 +41,10 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
-    public override void OnStartServer(){
-        base.OnStartServer();
 
-        // Shuffle the deck twice when the server starts
-        Shuffle();
-        Shuffle();
-    }
-
+    [Server]
     // Method to shuffle the cards in the deck
-    private void Shuffle(){
+    public void Shuffle(){
         int n = cards_.Count;
         while(n > 1){
             int k = (int)Mathf.Floor(Random.value * (n--));
@@ -61,17 +56,21 @@ public class PlayerManager : NetworkBehaviour {
 
     // Method called by the server to deal cards to players
     [Server]
-    public void DealCards(){
-        for(int i=0; i<6; i++){
-            GameObject card = Instantiate(cards_[deckIndex--], new Vector2(0, 0), Quaternion.identity);
-            if(win && i<3){
-                card.GetComponent<CardValues>().player = "P1";
-            }else{
-                card.GetComponent<CardValues>().player = "P2";
+    public void DealCards(int index){
+        if(index%2 == 0 || deckIndex >= 0){
+            for(int i=0; i<index; i++){
+                GameObject card = Instantiate(cards_[deckIndex--], new Vector2(0, 0), Quaternion.identity);
+                card.GetComponent<CardValues>().player = (win && i < index/2) || (!win && i >= index/2) ? "P1" : "P2";
+                NetworkServer.Spawn(card, connectionToClient);
+                RpcShowCard(card, "dealt", card.GetComponent<CardValues>().player);
             }
-            NetworkServer.Spawn(card, connectionToClient);
-            RpcShowCard(card, "dealt", card.GetComponent<CardValues>().player);
+            Debug.Log(deckIndex+1);
         }
+    }
+
+    [ClientRpc]
+    private void UpdateCounter(GameObject card, int index){
+        card.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = index.ToString();
     }
 
     [Server]
@@ -119,25 +118,74 @@ public class PlayerManager : NetworkBehaviour {
 
     [Command]
     private void CmdPlayCard(GameObject card){
-        RpcShowCard(card, "played", card.GetComponent<CardValues>().player);
-        if (isServer)
-        {
-            UpdateTurnsPlayed();
+        RpcShowCard(card, "played", card.GetComponent<CardValues>().player);    
+        UpdateTurnsPlayed();
+    }
+
+    [Server]
+    private void UpdateTurnsPlayed()
+    {
+        RpcUpdateTurn();
+        gm.UpdateTurnsPlayed();
+        if(gm.turnsPlayed == "P"){
+            Invoke("Take", 2.5f);
         }
     }
 
     [Server]
-    void UpdateTurnsPlayed()
-    {
-        if(DropZone.GetComponent<GridLayoutGroup>().transform.childCount == 2)
-            Debug.Log("PRESA");
-        RpcLogToClients();
+    private void Take(){
+        ChooseRoundWinner();
+        DeleteCards();
+    }
+
+    [Server]
+    private void ChooseRoundWinner(){
+        CardValues winner = null;
+        CardValues loser = null;
+        foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
+        {
+            if(winner == null)
+                winner = child.gameObject.GetComponent<CardValues>();
+            else
+                loser = child.gameObject.GetComponent<CardValues>();
+        }
+
+        if(winner.suit == briscolaSuit && loser.suit == briscolaSuit){
+            if(winner.number < loser.number)
+                winner = loser;
+        }else if(winner.suit != briscolaSuit && loser.suit != briscolaSuit){
+            if(winner.number < loser.number)
+                winner = loser;
+        }else if(loser.suit == briscolaSuit){
+            winner = loser;
+        }
+
+        win = winner.player == player;
+        RpcUpdateRoundWinnner(!win);
+    }
+
+    [Server]
+    private void DeleteCards(){
+        foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
+        {
+            NetworkServer.Destroy(child.gameObject);
+        }
+        RpcUpdateTurn();
+        gm.UpdateTurnsPlayed("P1", win);
+        DealCards(2);
     }
 
     [ClientRpc]
-    void RpcLogToClients()
+    private void RpcUpdateTurn()
     {
-        gm.UpdateTurnsPlayed();
-        Debug.Log(gm.turnsPlayed);
+        if(!isServer){
+            gm.UpdateTurnsPlayed("P2", win);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcUpdateRoundWinnner(bool isWinner){
+        if(!isServer)
+            win = isWinner;
     }
 }
