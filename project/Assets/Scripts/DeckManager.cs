@@ -7,6 +7,7 @@ public class DeckManager : NetworkBehaviour
 {
     public List<GameObject> cards = new List<GameObject>();
     private int deckIndex;
+    private int briscolaSuit;
 
     private void Start() {
         deckIndex = cards.Count-1;
@@ -32,6 +33,13 @@ public class DeckManager : NetworkBehaviour
         cards.Insert(index, card);
     }
 
+    public void SetBriscolaSuit(int suit){
+        briscolaSuit = suit;
+    }
+
+    public int GetBriscolaSuit(){
+        return briscolaSuit;
+    }
     // Method to shuffle the cards in the deck
     public void Shuffle(){
         int n = cards.Count;

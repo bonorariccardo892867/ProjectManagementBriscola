@@ -19,7 +19,6 @@ public class PlayerManager : NetworkBehaviour {
     // Player identifier and whether the player is the winner
     public string player;
     private bool win;
-    private int briscolaSuit;
 
     public override void OnStartClient(){
         base.OnStartClient();
@@ -75,7 +74,7 @@ public class PlayerManager : NetworkBehaviour {
         GameObject briscola = deck.GetCardWithoutDecrement();
         deck.RemoveAt(deck.GetIndex());
         deck.Insert(0, briscola);
-        briscolaSuit = briscola.GetComponent<CardValues>().suit;
+        deck.SetBriscolaSuit(briscola.GetComponent<CardValues>().suit);
 
         Briscola = Instantiate(Briscola, position, Quaternion.identity);
         NetworkServer.Spawn(Briscola, connectionToClient);
@@ -133,6 +132,7 @@ public class PlayerManager : NetworkBehaviour {
     private void Take(){
         ChooseRoundWinner();
         DeleteCards();
+        UpdateCounter(GameObject.Find("Main Canvas").transform.Find("Briscola(Clone)").gameObject, deck.GetIndex()+1);
     }
 
     [Server]
@@ -147,13 +147,13 @@ public class PlayerManager : NetworkBehaviour {
                 loser = child.gameObject.GetComponent<CardValues>();
         }
 
-        if(winner.suit == briscolaSuit && loser.suit == briscolaSuit){
+        if(winner.suit == deck.GetBriscolaSuit() && loser.suit == deck.GetBriscolaSuit()){
             if(winner.number < loser.number)
                 winner = loser;
-        }else if(winner.suit != briscolaSuit && loser.suit != briscolaSuit){
+        }else if(winner.suit != deck.GetBriscolaSuit() && loser.suit != deck.GetBriscolaSuit()){
             if(winner.suit == loser.suit && winner.number < loser.number)
                 winner = loser;
-        }else if(loser.suit == briscolaSuit){
+        }else if(loser.suit == deck.GetBriscolaSuit()){
             winner = loser;
         }
 
@@ -170,7 +170,6 @@ public class PlayerManager : NetworkBehaviour {
         RpcUpdateTurn();
         gm.UpdateTurnsPlayed("P1", win);
         DealCards(2);
-        UpdateCounter(GameObject.Find("Main Canvas").transform.Find("Briscola(Clone)").gameObject, deck.GetIndex()+1);
     }
 
     [ClientRpc]
