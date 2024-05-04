@@ -4,9 +4,14 @@ using UnityEngine;
 using Mirror;
 
 public class GameManager : NetworkBehaviour{
+
+    // String to keep track of turns played
     public string turnsPlayed;
+    
+    // Index to keep track of the current turn state
     private int index = 0;
 
+    // Method to update the turns played
     public void UpdateTurnsPlayed(string player = "", bool isWinner = false){
         TurnCounter turnCounter = GameObject.Find("TurnDisplay(Clone)").GetComponent<TurnCounter>();
         switch (index)

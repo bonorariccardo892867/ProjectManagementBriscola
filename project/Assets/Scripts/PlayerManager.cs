@@ -14,6 +14,8 @@ public class PlayerManager : NetworkBehaviour {
     public GameObject DropZone;
     public GameObject Briscola;
     public GameObject TurnDisplay;
+
+    // GameManager and DeckManager
     public GameManager gm;
     public DeckManager deck;
 
@@ -21,6 +23,7 @@ public class PlayerManager : NetworkBehaviour {
     public string player;
     private bool win;
 
+    // Called on the client when the NetworkBehaviour is started
     public override void OnStartClient(){
         base.OnStartClient();
         PlayerArea = GameObject.Find("PlayerArea");
@@ -38,15 +41,15 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
+    // Called on the server when the NetworkBehaviour is started
     public override void OnStartServer()
     {
         base.OnStartServer();
         deck = GameObject.Find("DeckManager").GetComponent<DeckManager>();
     }
 
-
-    [Server]
     // Method to shuffle the cards in the deck
+    [Server]
     public void Shuffle(){
         deck.Shuffle();
     }
@@ -64,11 +67,13 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
+    // Method to update the card counter
     [ClientRpc]
     private void UpdateCounter(GameObject card, int index){
         card.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = index.ToString();
     }
 
+    // Method to set the "briscola" card
     [Server]
     public void SetBriscola(Vector2 position){
         GameObject briscola = deck.GetCardWithoutDecrement();
@@ -85,6 +90,7 @@ public class PlayerManager : NetworkBehaviour {
         
     }
 
+    // Method to update the "briscola" card on the client
     [ClientRpc]
     private void RpcSetBriscola(GameObject card, string spriteName, int index){
         Transform canvas = GameObject.Find("Main Canvas").transform;
@@ -116,12 +122,14 @@ public class PlayerManager : NetworkBehaviour {
         CmdPlayCard(card);
     }
 
+    // Command called on the server when a player plays a card
     [Command]
     private void CmdPlayCard(GameObject card){
         RpcShowCard(card, "played", card.GetComponent<CardValues>().player);    
         UpdateTurnsPlayed();
     }
 
+    // Method to update the turn
     [Server]
     private void UpdateTurnsPlayed()
     {
@@ -132,6 +140,7 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
+    // Method called after both players have played their turn
     [Server]
     private void Take(){
         ChooseRoundWinner();
@@ -139,6 +148,7 @@ public class PlayerManager : NetworkBehaviour {
         UpdateCounter(GameObject.Find("Main Canvas").transform.Find("Briscola(Clone)").gameObject, deck.GetIndex()+1);
     }
 
+    // Method to determine the winner of the round
     [Server]
     private void ChooseRoundWinner(){
         CardValues winner = null;
@@ -165,6 +175,7 @@ public class PlayerManager : NetworkBehaviour {
         RpcUpdateRoundWinnner(!win);
     }
 
+    // Method to delete the cards played in the round
     [Server]
     private void DeleteCards(){
         foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
@@ -176,6 +187,7 @@ public class PlayerManager : NetworkBehaviour {
         DealCards(2);
     }
 
+    // Method to update the turn on the client
     [ClientRpc]
     private void RpcUpdateTurn()
     {
@@ -184,6 +196,7 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
+    // Method to update the round winner on the client
     [ClientRpc]
     private void RpcUpdateRoundWinnner(bool isWinner){
         if(!isServer)

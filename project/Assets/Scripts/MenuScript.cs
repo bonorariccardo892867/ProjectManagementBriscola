@@ -52,7 +52,7 @@ public class MenuScript : MonoBehaviour
         rulesPanel.SetActive(false);
     }
 
-    // Function to Profile section
+    // Function to switch to the Profile section
     public void Profile()
     {
         menuPanel.SetActive(false);
@@ -62,6 +62,7 @@ public class MenuScript : MonoBehaviour
         rulesPanel.SetActive(false);
     }
 
+    // Function to switch to the Rules section
     public void Rules(){
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
@@ -111,7 +112,7 @@ public class MenuScript : MonoBehaviour
         if (NetworkServer.active || NetworkClient.active)
         {
             gamePanel.SetActive(true);
-        } // If join panel is active
+        }
         else if(joinPanel.activeSelf) 
         {
             gamePanel.SetActive(false);
