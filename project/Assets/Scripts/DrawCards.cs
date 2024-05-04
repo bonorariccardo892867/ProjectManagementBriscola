@@ -15,7 +15,7 @@ public class DrawCards : NetworkBehaviour
         playerManager = networkIdentity.GetComponent<PlayerManager>();
 
         // Shuffle the deck twice when the server starts
-        for(int i=0; i<10; i++)
+        for(int i=0; i<5; i++)
             playerManager.Shuffle();
 
         // Deal cards using the PlayerManager

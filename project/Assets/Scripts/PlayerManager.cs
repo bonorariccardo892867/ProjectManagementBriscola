@@ -13,6 +13,7 @@ public class PlayerManager : NetworkBehaviour {
     public GameObject EnemyArea;
     public GameObject DropZone;
     public GameObject Briscola;
+    public GameObject TurnDisplay;
     public GameManager gm;
     public DeckManager deck;
 
@@ -53,14 +54,13 @@ public class PlayerManager : NetworkBehaviour {
     // Method called by the server to deal cards to players
     [Server]
     public void DealCards(int index){
-        if(index%2 == 0 || deck.GetIndex() >= 0){
+        if(index%2 == 0 && deck.GetIndex()-index >= -1){
             for(int i=0; i<index; i++){
                 GameObject card = Instantiate(deck.GetCard(), new Vector2(0, 0), Quaternion.identity);
                 card.GetComponent<CardValues>().player = (win && i < index/2) || (!win && i >= index/2) ? "P1" : "P2";
                 NetworkServer.Spawn(card, connectionToClient);
                 RpcShowCard(card, "dealt", card.GetComponent<CardValues>().player);
             }
-            Debug.Log(deck.GetIndex()+1);
         }
     }
 
@@ -77,16 +77,20 @@ public class PlayerManager : NetworkBehaviour {
         deck.SetBriscolaSuit(briscola.GetComponent<CardValues>().suit);
 
         Briscola = Instantiate(Briscola, position, Quaternion.identity);
+        TurnDisplay = Instantiate(TurnDisplay);
         NetworkServer.Spawn(Briscola, connectionToClient);
+        NetworkServer.Spawn(TurnDisplay, connectionToClient);
 
         RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name, deck.GetIndex()+1);
+        
     }
 
     [ClientRpc]
     private void RpcSetBriscola(GameObject card, string spriteName, int index){
+        Transform canvas = GameObject.Find("Main Canvas").transform;
         card.GetComponent<BriscolaScript>().BriscolaCard(Resources.Load<Sprite>("Sprite/" + spriteName));
         card.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>().text = index.ToString();
-        card.transform.SetParent(GameObject.Find("Main Canvas").transform);
+        card.transform.SetParent(canvas);
     }
 
     // Method to show the card on the game scene
@@ -122,9 +126,9 @@ public class PlayerManager : NetworkBehaviour {
     private void UpdateTurnsPlayed()
     {
         RpcUpdateTurn();
-        gm.UpdateTurnsPlayed();
+        gm.UpdateTurnsPlayed("P1");
         if(gm.turnsPlayed == "P"){
-            Invoke("Take", 2.5f);
+            Invoke("Take", 1.5f);
         }
     }
 
