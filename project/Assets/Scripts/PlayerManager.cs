@@ -14,10 +14,7 @@ public class PlayerManager : NetworkBehaviour {
     public GameObject DropZone;
     public GameObject Briscola;
     public GameManager gm;
-
-    // List of cards in the deck and deck index
-    public List<GameObject> cards_ = new List<GameObject>();
-    private int deckIndex = 39;
+    public DeckManager deck;
 
     // Player identifier and whether the player is the winner
     public string player;
@@ -41,30 +38,30 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        deck = GameObject.Find("DeckManager").GetComponent<DeckManager>();
+    }
+
 
     [Server]
     // Method to shuffle the cards in the deck
     public void Shuffle(){
-        int n = cards_.Count;
-        while(n > 1){
-            int k = (int)Mathf.Floor(Random.value * (n--));
-            GameObject temp = cards_[n];
-            cards_[n] = cards_[k];
-            cards_[k] = temp;
-        }
+        deck.Shuffle();
     }
 
     // Method called by the server to deal cards to players
     [Server]
     public void DealCards(int index){
-        if(index%2 == 0 || deckIndex >= 0){
+        if(index%2 == 0 || deck.GetIndex() >= 0){
             for(int i=0; i<index; i++){
-                GameObject card = Instantiate(cards_[deckIndex--], new Vector2(0, 0), Quaternion.identity);
+                GameObject card = Instantiate(deck.GetCard(), new Vector2(0, 0), Quaternion.identity);
                 card.GetComponent<CardValues>().player = (win && i < index/2) || (!win && i >= index/2) ? "P1" : "P2";
                 NetworkServer.Spawn(card, connectionToClient);
                 RpcShowCard(card, "dealt", card.GetComponent<CardValues>().player);
             }
-            Debug.Log(deckIndex+1);
+            Debug.Log(deck.GetIndex()+1);
         }
     }
 
@@ -75,15 +72,15 @@ public class PlayerManager : NetworkBehaviour {
 
     [Server]
     public void SetBriscola(Vector2 position){
-        GameObject briscola = cards_[deckIndex];
-        cards_.RemoveAt(deckIndex);
-        cards_.Insert(0, briscola);
+        GameObject briscola = deck.GetCardWithoutDecrement();
+        deck.RemoveAt(deck.GetIndex());
+        deck.Insert(0, briscola);
         briscolaSuit = briscola.GetComponent<CardValues>().suit;
 
         Briscola = Instantiate(Briscola, position, Quaternion.identity);
         NetworkServer.Spawn(Briscola, connectionToClient);
 
-        RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name, deckIndex+1);
+        RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name, deck.GetIndex()+1);
     }
 
     [ClientRpc]
@@ -154,7 +151,7 @@ public class PlayerManager : NetworkBehaviour {
             if(winner.number < loser.number)
                 winner = loser;
         }else if(winner.suit != briscolaSuit && loser.suit != briscolaSuit){
-            if(winner.number < loser.number)
+            if(winner.suit == loser.suit && winner.number < loser.number)
                 winner = loser;
         }else if(loser.suit == briscolaSuit){
             winner = loser;
@@ -173,6 +170,7 @@ public class PlayerManager : NetworkBehaviour {
         RpcUpdateTurn();
         gm.UpdateTurnsPlayed("P1", win);
         DealCards(2);
+        UpdateCounter(GameObject.Find("Main Canvas").transform.Find("Briscola(Clone)").gameObject, deck.GetIndex()+1);
     }
 
     [ClientRpc]

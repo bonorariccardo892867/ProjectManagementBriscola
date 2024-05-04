@@ -67,7 +67,7 @@ public class DragAndDrop : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameObject parent = transform.parent.gameObject;
+        Transform parent = transform.parent;
         if ((!isDragging && parent != null && parent.name != "PlayerArea") || (gameObject.GetComponent<CardValues>().player != gm.turnsPlayed))
             isDraggable = false;
         else
