@@ -14,6 +14,14 @@ public class PlayerManager : NetworkBehaviour {
     public GameObject DropZone;
     public GameObject Briscola;
     public GameObject TurnDisplay;
+	
+	//Score Manager
+	public GameObject HostScore;
+	public GameObject ClientScore;
+	public int sumScore=0;
+    public int hostCount=0;
+	public int clientCount=0;
+	private Text scoreTxt;
 
     // GameManager and DeckManager
     public GameManager gm;
@@ -39,6 +47,14 @@ public class PlayerManager : NetworkBehaviour {
             win = false;
             player = "P2";
         }
+		
+		
+		
+		//Score Manager
+		HostScore = GameObject.Find("HostScore");
+        ClientScore = GameObject.Find("ClientScore");
+		hostCount=0;
+		clientCount=0;
     }
 
     // Called on the server when the NetworkBehaviour is started
@@ -47,6 +63,22 @@ public class PlayerManager : NetworkBehaviour {
         base.OnStartServer();
         deck = GameObject.Find("DeckManager").GetComponent<DeckManager>();
     }
+
+	//Score Manager
+[	ClientRpc]
+	public void RpcHostUpdate(int n){
+		hostCount+=n;
+		scoreTxt = HostScore.GetComponent<UnityEngine.UI.Text>();
+		scoreTxt.text = hostCount.ToString();
+	}
+	[ClientRpc]
+	public void RpcClientUpdate(int n){
+		clientCount+=n;
+		scoreTxt = ClientScore.GetComponent<UnityEngine.UI.Text>();
+		scoreTxt.text = clientCount.ToString();
+	}
+
+
 
     // Method to shuffle the cards in the deck
     [Server]
@@ -85,7 +117,8 @@ public class PlayerManager : NetworkBehaviour {
         TurnDisplay = Instantiate(TurnDisplay);
         NetworkServer.Spawn(Briscola, connectionToClient);
         NetworkServer.Spawn(TurnDisplay, connectionToClient);
-
+		
+		
         RpcSetBriscola(Briscola, briscola.GetComponent<CardFlipper>().CardFront.name, deck.GetIndex()+1);
         
     }
@@ -155,11 +188,18 @@ public class PlayerManager : NetworkBehaviour {
         CardValues loser = null;
         foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
         {
-            if(winner == null)
-                winner = child.gameObject.GetComponent<CardValues>();
-            else
-                loser = child.gameObject.GetComponent<CardValues>();
+            if(winner == null){
+				winner = child.gameObject.GetComponent<CardValues>();
+				sumScore += winner.score;
+			}
+                
+            else{
+				loser = child.gameObject.GetComponent<CardValues>();
+				sumScore += loser.score;
+			}
+                
         }
+		Debug.Log(sumScore + " " + winner.score + " " + loser.score);
 
         if(winner.suit == deck.GetBriscolaSuit() && loser.suit == deck.GetBriscolaSuit()){
             if(winner.number < loser.number)
@@ -170,11 +210,25 @@ public class PlayerManager : NetworkBehaviour {
         }else if(loser.suit == deck.GetBriscolaSuit()){
             winner = loser;
         }
-
+		
+		
+		
+		
+		
         win = winner.player == player;
+		
+		if (win)
+			RpcHostUpdate(sumScore);
+		else
+			RpcClientUpdate(sumScore);
+        sumScore=0;
+		
+		
         RpcUpdateRoundWinnner(!win);
     }
 
+
+	
     // Method to delete the cards played in the round
     [Server]
     private void DeleteCards(){
@@ -199,7 +253,7 @@ public class PlayerManager : NetworkBehaviour {
     // Method to update the round winner on the client
     [ClientRpc]
     private void RpcUpdateRoundWinnner(bool isWinner){
-        if(!isServer)
-            win = isWinner;
+        if(!isServer) win = isWinner;
+			
     }
 }

@@ -3065,6 +3065,18 @@ PrefabInstance:
       propertyPath: profilePanel
       value: 
       objectReference: {fileID: 1197482150}
+    - target: {fileID: 1377068070060176622, guid: 2709c01f2f38090498819898205f212d, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1377068070060176622, guid: 2709c01f2f38090498819898205f212d, type: 3}
+      propertyPath: spawnPrefabs.Array.data[48]
+      value: 
+      objectReference: {fileID: 2332451518515115685, guid: 5ec6a0b69edc2e24e80d97ece2a51486, type: 3}
+    - target: {fileID: 1377068070060176622, guid: 2709c01f2f38090498819898205f212d, type: 3}
+      propertyPath: spawnPrefabs.Array.data[49]
+      value: 
+      objectReference: {fileID: 8084307523500972840, guid: c07a497acd6ccac4d973700d693dd44a, type: 3}
     - target: {fileID: 1770858935310710489, guid: 2709c01f2f38090498819898205f212d, type: 3}
       propertyPath: m_IsActive
       value: 1

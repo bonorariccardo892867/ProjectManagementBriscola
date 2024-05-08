@@ -960,6 +960,8 @@ MonoBehaviour:
   - {fileID: 7252190230056789154, guid: 0ead22cb3bb9db24b8c77d4fd7cd39ae, type: 3}
   - {fileID: 2060452978931026539, guid: c9668a0a7c4cc2c499cc286c52fb9817, type: 3}
   - {fileID: 2271835037921558074, guid: 7a7ec7be779199f41b85870a07451c77, type: 3}
+  - {fileID: 2332451518515115685, guid: 5ec6a0b69edc2e24e80d97ece2a51486, type: 3}
+  - {fileID: 8084307523500972840, guid: c07a497acd6ccac4d973700d693dd44a, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -1021,6 +1023,7 @@ MonoBehaviour:
   gamePanel: {fileID: 3174563670176218944}
   joinPanel: {fileID: 1770858935310710489}
   profilePanel: {fileID: 0}
+  rulesPanel: {fileID: 0}
 --- !u!1 &2924082399262571461
 GameObject:
   m_ObjectHideFlags: 0
