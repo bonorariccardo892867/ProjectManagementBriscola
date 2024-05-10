@@ -104,7 +104,8 @@ MonoBehaviour:
   EnemyArea: {fileID: 0}
   DropZone: {fileID: 0}
   Briscola: {fileID: 7252190230056789154, guid: 0ead22cb3bb9db24b8c77d4fd7cd39ae, type: 3}
-  TurnDisplay: {fileID: 2271835037921558074, guid: 7a7ec7be779199f41b85870a07451c77, type: 3}
+  ScoreBoard: {fileID: 4994413831021747265, guid: 88f35baade8ef7c4cbab1b5bf7afec53, type: 3}
   gm: {fileID: 0}
   deck: {fileID: 0}
+  sm: {fileID: 0}
   player: 

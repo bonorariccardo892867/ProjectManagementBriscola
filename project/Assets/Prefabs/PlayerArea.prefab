@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1350279938065294757}
   - component: {fileID: 5633280054884297651}
   - component: {fileID: -8379334923952719646}
-  - component: {fileID: 2259589082118447363}
   m_Layer: 5
   m_Name: PlayerArea
   m_TagString: Untagged
@@ -61,14 +60,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23529412, g: 0.5529412, b: 0.24705882, a: 1}
+  m_Color: {r: 0.8, g: 0.67058825, b: 0.50980395, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 90a2dde0942123c4ebb9c4af580c5818, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -119,22 +118,3 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &2259589082118447363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2176499443564924849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e3810e0b34523643b2203b1004859fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  cards: []
-  PlayerArea: {fileID: 0}
-  EnemyArea: {fileID: 8783777599315817932, guid: a6f8377c946970c4b924f678c331422f, type: 3}
-  DropZone: {fileID: 3409002561299386185, guid: 521a6a6187ac7164a9c6d63a3a55f3e7, type: 3}

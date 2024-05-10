@@ -11,36 +11,54 @@ public class GameManager : NetworkBehaviour{
     // Index to keep track of the current turn state
     private int index = 0;
 
+    // SyncVars to store player names
+    [SyncVar]
+    public string hostName = "Host";
+
+    [SyncVar]
+    public string clientName = "Client";
+
+    // Method to set player names
+    [ClientRpc]
+    public void RpcSetName(){
+        if(PlayerPrefs.HasKey("user_name")){
+            if(isServer){
+                CmdSetHostName(PlayerPrefs.GetString("user_name"));
+            }else{
+                CmdSetClientName(PlayerPrefs.GetString("user_name"));
+            }
+        }
+    }
+
+    // Command to set client name
+    [Command(requiresAuthority = false)]
+    private void CmdSetClientName(string name){
+        clientName = name;
+    }
+
+    // Command to set host name
+    [Command(requiresAuthority = false)]
+    private void CmdSetHostName(string name){
+        hostName = name;
+    }
+
     // Method to update the turns played
-    public void UpdateTurnsPlayed(string player = "", bool isWinner = false){
-        TurnCounter turnCounter = GameObject.Find("TurnDisplay(Clone)").GetComponent<TurnCounter>();
+    public void UpdateTurnsPlayed(string player, bool isWinner = false){
         switch (index)
         {
             case 0:
-                if(turnsPlayed == "P1")
-                    turnsPlayed = "P2";
-                else
-                    turnsPlayed = "P1";
-                
-                if(turnsPlayed == "P1")
-                    turnCounter.SetTurn("Host");
-                else
-                    turnCounter.SetTurn("Client");
+                turnsPlayed = (turnsPlayed == "P1") ? "P2" : "P1";
                 ++index;
             break;
             case 1:
-                turnCounter.SetTurn("");
                 turnsPlayed = "P";
                 ++index;
             break;
             case 2:
                 turnsPlayed = (player == "P1" && isWinner) || (player == "P2" && !isWinner) ? "P1" : "P2";
-                if(turnsPlayed == "P1")
-                    turnCounter.SetTurn("Host");
-                else
-                    turnCounter.SetTurn("Client");
                 index = 0;
             break;
         }
+        GameObject.Find("ScoreBoard(Clone)").GetComponent<ScoreManager>().SetGreenText(turnsPlayed);
     }
 }

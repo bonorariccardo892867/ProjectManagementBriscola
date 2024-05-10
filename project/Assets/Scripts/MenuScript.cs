@@ -21,7 +21,7 @@ public class MenuScript : MonoBehaviour
         networkManager.StartHost();
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
-        gamePanel.SetActive(true);
+        gamePanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
     }
@@ -47,7 +47,7 @@ public class MenuScript : MonoBehaviour
         networkManager.StartClient();
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
-        gamePanel.SetActive(true);
+        gamePanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
     }
@@ -80,6 +80,7 @@ public class MenuScript : MonoBehaviour
         rulesPanel.SetActive(false);
     }
 
+
     // Function to stop hosting or disconnect from the server
     public void Stop()
     {
@@ -111,7 +112,7 @@ public class MenuScript : MonoBehaviour
         // Check if server or client is active
         if (NetworkServer.active || NetworkClient.active)
         {
-            gamePanel.SetActive(true);
+            gamePanel.SetActive(false);
         }
         else if(joinPanel.activeSelf) 
         {
