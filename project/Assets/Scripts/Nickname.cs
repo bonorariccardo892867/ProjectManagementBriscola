@@ -10,13 +10,21 @@ public class Nickname : MonoBehaviour
 
     void Start()
     {
-        obj_text.text = PlayerPrefs.GetString("user_name");
+        if(PlayerPrefs.HasKey("user_name") && PlayerPrefs.GetString("user_name") != "")
+            obj_text.text = PlayerPrefs.GetString("user_name");
+        else{
+            obj_text.text = "Guest";
+            PlayerPrefs.SetString("user_name", obj_text.text);
+            PlayerPrefs.Save();
+        }
     }
 
     public void Create()
     {
-        obj_text.text = display.text;
-        PlayerPrefs.SetString("user_name", obj_text.text);
-        PlayerPrefs.Save();
+        if(!string.IsNullOrWhiteSpace(display.text)){
+            obj_text.text = display.text;
+            PlayerPrefs.SetString("user_name", obj_text.text);
+            PlayerPrefs.Save();
+        }
     }
 }

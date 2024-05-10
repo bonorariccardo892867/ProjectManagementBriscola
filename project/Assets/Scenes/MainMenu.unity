@@ -215,17 +215,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1210378794 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-  m_PrefabInstance: {fileID: 336922655968055859}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &336922655968055859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,53 +223,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 48
-      objectReference: {fileID: 0}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[42]
-      value: 
-      objectReference: {fileID: 2060452978931026539, guid: c9668a0a7c4cc2c499cc286c52fb9817, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[43]
-      value: 
-      objectReference: {fileID: 3409002561299386185, guid: 521a6a6187ac7164a9c6d63a3a55f3e7, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[44]
-      value: 
-      objectReference: {fileID: 2694597328352963238, guid: d0c175b9862837d499102372113b4da6, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[45]
-      value: 
-      objectReference: {fileID: 8783777599315817932, guid: a6f8377c946970c4b924f678c331422f, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[46]
-      value: 
-      objectReference: {fileID: 2176499443564924849, guid: 743cb011950205c43b587347c5171b99, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[47]
-      value: 
-      objectReference: {fileID: 4994413831021747265, guid: 88f35baade8ef7c4cbab1b5bf7afec53, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[48]
-      value: 
-      objectReference: {fileID: 4994413831021747265, guid: 88f35baade8ef7c4cbab1b5bf7afec53, type: 3}
-    - target: {fileID: -6731278048692095820, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: spawnPrefabs.Array.data[49]
-      value: 
-      objectReference: {fileID: 4994413831021747265, guid: 88f35baade8ef7c4cbab1b5bf7afec53, type: 3}
-    - target: {fileID: 406069370379779822, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: networkManager
-      value: 
-      objectReference: {fileID: 1210378794}
     - target: {fileID: 1945086770812616350, guid: 2709c01f2f38090498819898205f212d, type: 3}
       propertyPath: m_Name
       value: NetworkManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2527155311889961309, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: m_CharacterLimit
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3187893497759445952, guid: 2709c01f2f38090498819898205f212d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -321,10 +266,6 @@ PrefabInstance:
     - target: {fileID: 3187893497759445952, guid: 2709c01f2f38090498819898205f212d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4601776850781982496, guid: 2709c01f2f38090498819898205f212d, type: 3}
-      propertyPath: m_FontData.m_Alignment
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
