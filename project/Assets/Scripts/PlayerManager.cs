@@ -81,13 +81,15 @@ public class PlayerManager : NetworkBehaviour {
     // Method to shuffle the cards in the deck
     [Server]
     public void Shuffle(){
-        deck.Shuffle();
+        if(isServer){
+            deck.Shuffle();
+        }
     }
 
     // Method called by the server to deal cards to players
     [Server]
     public void DealCards(int index){
-        if(index%2 == 0 && deck.GetIndex()-index >= -1){
+        if(index%2 == 0 && deck.GetIndex()-index >= -1 && isServer){
             for(int i=0; i<index; i++){
                 GameObject card = Instantiate(deck.GetCard(), new Vector2(0, 0), Quaternion.identity);
                 card.GetComponent<CardValues>().player = (win && i < index/2) || (!win && i >= index/2) ? "P1" : "P2";
@@ -100,73 +102,83 @@ public class PlayerManager : NetworkBehaviour {
     // Method to set up the game scene
     [Server]
     public void SetScene(Vector2 position){
-        SetBriscola(position);
-        Invoke("SetScoreBoard", 0.35f);
+        if(isServer){
+            SetBriscola(position);
+            Invoke("SetScoreBoard", 0.35f);
+        }
     }
 
     // Method to update the turn
     [Server]
     private void UpdateTurnsPlayed()
     {
-        RpcUpdateTurn();
-        gm.UpdateTurnsPlayed("P1");
-        if(gm.turnsPlayed == "P"){
-            Invoke("Take", 1.5f);
+        if(isServer){
+            RpcUpdateTurn();
+            gm.UpdateTurnsPlayed("P1", PlayerArea.transform.childCount == 0 && EnemyArea.transform.childCount == 0);
+            if(gm.turnsPlayed == "P"){
+                Invoke("Take", 1.5f);
+            }
         }
     }
 
     // Method called after both players have played their turn
     [Server]
     private void Take(){
-        ChooseRoundWinner();
-        DeleteCards();
-        UpdateCounter(GameObject.Find("Main Canvas").transform.Find("Briscola(Clone)").gameObject, deck.GetIndex()+1);
+        if(isServer){
+            ChooseRoundWinner();
+            DeleteCards();
+            UpdateCounter(GameObject.Find("Main Canvas").transform.Find("Briscola(Clone)").gameObject, deck.GetIndex()+1);
+        }
     }
 
     // Method to determine the winner of the round
     [Server]
     private void ChooseRoundWinner(){
-        CardValues winner = null;
-        CardValues loser = null;
-        int sumScore = 0; 
-        foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
-        {
-            if(winner == null){
-				winner = child.gameObject.GetComponent<CardValues>();
-				sumScore += winner.score;
-			}
-            else{
-				loser = child.gameObject.GetComponent<CardValues>();
-				sumScore += loser.score;
-			}
+        if(isServer){
+            CardValues winner = null;
+            CardValues loser = null;
+            int sumScore = 0; 
+            foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
+            {
+                if(winner == null){
+				    winner = child.gameObject.GetComponent<CardValues>();
+				    sumScore += winner.score;
+			    }
+                else{
+				    loser = child.gameObject.GetComponent<CardValues>();
+				    sumScore += loser.score;
+			    }
                 
-        }
+            }
 
-        if(winner.suit == deck.GetBriscolaSuit() && loser.suit == deck.GetBriscolaSuit()){
-            if(winner.number < loser.number)
+            if(winner.suit == deck.GetBriscolaSuit() && loser.suit == deck.GetBriscolaSuit()){
+                if(winner.number < loser.number)
+                    winner = loser;
+            }else if(winner.suit != deck.GetBriscolaSuit() && loser.suit != deck.GetBriscolaSuit()){
+                if(winner.suit == loser.suit && winner.number < loser.number)
+                    winner = loser;
+            }else if(loser.suit == deck.GetBriscolaSuit()){
                 winner = loser;
-        }else if(winner.suit != deck.GetBriscolaSuit() && loser.suit != deck.GetBriscolaSuit()){
-            if(winner.suit == loser.suit && winner.number < loser.number)
-                winner = loser;
-        }else if(loser.suit == deck.GetBriscolaSuit()){
-            winner = loser;
-        }
+            }
 		
-        win = winner.player == player;
-		RpcUpdateRoundWinnner(!win);
-        RpcUpdateScore(sumScore);
+            win = winner.player == player;
+		    RpcUpdateRoundWinnner(!win);
+            RpcUpdateScore(sumScore);
+        }
     }
 	
     // Method to delete the cards played in the round
     [Server]
     private void DeleteCards(){
-        foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
-        {
-            NetworkServer.Destroy(child.gameObject);
+        if(isServer){
+            foreach (Transform child in DropZone.GetComponent<GridLayoutGroup>().transform)
+            {
+                NetworkServer.Destroy(child.gameObject);
+            }
+            RpcUpdateTurn();
+            gm.UpdateTurnsPlayed("P1", PlayerArea.transform.childCount == 0 && EnemyArea.transform.childCount == 0, win);
+            DealCards(2);
         }
-        RpcUpdateTurn();
-        gm.UpdateTurnsPlayed("P1", win);
-        DealCards(2);
     }
 
     // Method to update the "briscola" card
@@ -201,9 +213,9 @@ public class PlayerManager : NetworkBehaviour {
     public void RpcUpdateScore(int sumScore){
         ScoreManager sm = GameObject.Find("ScoreBoard(Clone)").GetComponent<ScoreManager>();
         if ((win && player == "P1") || (!win && player == "P2"))
-			sm.hostUpdate(sumScore);
+			sm.HostUpdate(sumScore);
 		else
-			sm.clientUpdate(sumScore);	
+			sm.ClientUpdate(sumScore);	
     }
 
     // Method to update the turn on the client
@@ -211,7 +223,7 @@ public class PlayerManager : NetworkBehaviour {
     private void RpcUpdateTurn()
     {
         if(!isServer){
-            gm.UpdateTurnsPlayed("P2", win);
+            gm.UpdateTurnsPlayed("P2", PlayerArea.transform.childCount == 0 && EnemyArea.transform.childCount == 0, win);
         }
     }
 

@@ -43,7 +43,7 @@ public class GameManager : NetworkBehaviour{
     }
 
     // Method to update the turns played
-    public void UpdateTurnsPlayed(string player, bool isWinner = false){
+    public void UpdateTurnsPlayed(string player, bool empty, bool isWinner = false){
         switch (index)
         {
             case 0:
@@ -59,6 +59,9 @@ public class GameManager : NetworkBehaviour{
                 index = 0;
             break;
         }
-        GameObject.Find("ScoreBoard(Clone)").GetComponent<ScoreManager>().SetGreenText(turnsPlayed);
+        ScoreManager sm = GameObject.Find("ScoreBoard(Clone)").GetComponent<ScoreManager>();
+        sm.SetGreenText(turnsPlayed);
+        if(empty) 
+            sm.UpdateEnd();
     }
 }

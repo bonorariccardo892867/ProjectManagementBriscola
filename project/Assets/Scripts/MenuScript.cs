@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TMPro;
 
 public class MenuScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MenuScript : MonoBehaviour
     // UI panels
     public GameObject menuPanel;
     public GameObject gamePanel;
+    public GameObject drawPanel;
     public GameObject joinPanel;
     public GameObject profilePanel;
     public GameObject rulesPanel;
@@ -22,6 +24,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
     }
@@ -37,6 +40,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(true);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
     }
@@ -48,6 +52,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
     }
@@ -58,6 +63,7 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
         profilePanel.SetActive(true);
         rulesPanel.SetActive(false);
     }
@@ -67,17 +73,19 @@ public class MenuScript : MonoBehaviour
         menuPanel.SetActive(false);
         joinPanel.SetActive(false);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(true);
     }
 
     // Function to go back to the main menu
     public void Back(){
-        joinPanel.SetActive(false);
-        menuPanel.SetActive(true);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
+        joinPanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
+        menuPanel.SetActive(true);
     }
 
 
@@ -88,11 +96,33 @@ public class MenuScript : MonoBehaviour
         {
             // If hosting, stop hosting
             networkManager.StopHost();
+            gamePanel.SetActive(false);
+            drawPanel.SetActive(false);
         }
         if (networkManager.mode == NetworkManagerMode.ClientOnly)
         {
             // If client, stop client
             networkManager.StopClient();
+            gamePanel.SetActive(false);
+            drawPanel.SetActive(false);
+        }
+    }
+
+    public void FinalResults(string winner, string score){
+        joinPanel.SetActive(false);
+        profilePanel.SetActive(false);
+        rulesPanel.SetActive(false);
+        menuPanel.SetActive(false);
+
+        if(winner == ""){
+            gamePanel.SetActive(false);
+            drawPanel.SetActive(true);
+            GameObject.Find("ScoreTextD").GetComponent<TextMeshProUGUI>().text = score;
+        }else{
+            drawPanel.SetActive(false);
+            gamePanel.SetActive(true);
+            GameObject.Find("WinnerText").GetComponent<TextMeshProUGUI>().text = winner;
+            GameObject.Find("ScoreTextW").GetComponent<TextMeshProUGUI>().text = score;
         }
     }
 
@@ -101,6 +131,7 @@ public class MenuScript : MonoBehaviour
     {
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
+        drawPanel.SetActive(false);
         joinPanel.SetActive(false);
         profilePanel.SetActive(false);
         rulesPanel.SetActive(false);
@@ -109,15 +140,11 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if server or client is active
-        if (NetworkServer.active || NetworkClient.active)
-        {
-            gamePanel.SetActive(false);
-        }
-        else if(joinPanel.activeSelf) 
+        if(joinPanel.activeSelf) 
         {
             gamePanel.SetActive(false);
             menuPanel.SetActive(false);
+            drawPanel.SetActive(false);
             profilePanel.SetActive(false);
             rulesPanel.SetActive(false);
         }
@@ -125,23 +152,40 @@ public class MenuScript : MonoBehaviour
         {
             gamePanel.SetActive(false);
             menuPanel.SetActive(false);
+            drawPanel.SetActive(false);
             joinPanel.SetActive(false);
             rulesPanel.SetActive(false);
         }
         else if(rulesPanel.activeSelf){
             gamePanel.SetActive(false);
             menuPanel.SetActive(false);
+            drawPanel.SetActive(false);
             joinPanel.SetActive(false);
             profilePanel.SetActive(false);
         }
-        else
+        else if(gamePanel.activeSelf)
+        {
+            rulesPanel.SetActive(false);
+            menuPanel.SetActive(false);
+            joinPanel.SetActive(false);
+            profilePanel.SetActive(false);
+            drawPanel.SetActive(false);
+        }
+        else if(drawPanel.activeSelf)
         {
             gamePanel.SetActive(false);
             joinPanel.SetActive(false);
-            menuPanel.SetActive(true);
             profilePanel.SetActive(false);
             rulesPanel.SetActive(false);
+            menuPanel.SetActive(false);
+        } 
+        else if(menuPanel.activeSelf)
+        {
+            gamePanel.SetActive(false);
+            joinPanel.SetActive(false);
+            profilePanel.SetActive(false);
+            rulesPanel.SetActive(false);
+            drawPanel.SetActive(false);
         }
-
     }
 }

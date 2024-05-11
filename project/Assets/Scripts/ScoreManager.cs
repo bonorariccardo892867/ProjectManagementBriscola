@@ -16,6 +16,7 @@ public class ScoreManager : NetworkBehaviour
 	
     private int hostCount=0;
 	private int clientCount=0;
+	private bool end;
 	
 	// Method to set up the scoreboard
 	public void SetScoreBoard(string player)
@@ -56,14 +57,34 @@ public class ScoreManager : NetworkBehaviour
     }
 
 	// Method to update host player score
-	public void hostUpdate(int n){
+	public void HostUpdate(int n){
 		hostCount+=n;
-		hostScore.text = hostCount.ToString();;
+		hostScore.text = hostCount.ToString();
+		CheckEnd();
 	}
 
 	// Method to update client player score
-	public void clientUpdate(int n){
+	public void ClientUpdate(int n){
 		clientCount+=n;
 		clientScore.text = clientCount.ToString();
+		CheckEnd();
+	}
+
+	// Method to check if the game is ended
+	private void CheckEnd(){
+		if(hostCount + clientCount == 120 && end){
+			MenuScript menu = GameObject.Find("NetworkManager").GetComponent<MenuScript>();
+			if(hostCount > clientCount)
+				menu.FinalResults(hostName.text, hostScore.text + " - " + clientScore.text);
+			else if(hostCount < clientCount)
+				menu.FinalResults(clientName.text, clientScore.text + " - " + hostScore.text);
+			else
+				menu.FinalResults("", hostScore.text + " - " + clientScore.text); 
+		}
+	}
+
+	// Method to update the end variable
+	public void UpdateEnd(){
+		end = true;
 	}
 }
