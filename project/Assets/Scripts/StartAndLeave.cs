@@ -10,6 +10,7 @@ public class StartAndLeave : NetworkBehaviour
         // Check if there are two players connected
         if(NetworkServer.connections.Count == 2){
             gameObject.SetActive(false);
+            GameObject.Find("PCounter").SetActive(false);
             NetworkIdentity networkIdentity = NetworkClient.connection.identity;
             PlayerManager playerManager = networkIdentity.GetComponent<PlayerManager>();
 
