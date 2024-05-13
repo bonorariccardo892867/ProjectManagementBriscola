@@ -117,10 +117,15 @@ public class MenuScript : MonoBehaviour
         if(winner == ""){
             gamePanel.SetActive(false);
             drawPanel.SetActive(true);
+            PlayerPrefs.SetInt("draw", PlayerPrefs.GetInt("draw")+1);
             GameObject.Find("ScoreTextD").GetComponent<TextMeshProUGUI>().text = score;
         }else{
             drawPanel.SetActive(false);
             gamePanel.SetActive(true);
+            if(winner == "YOU")
+                PlayerPrefs.SetInt("win", PlayerPrefs.GetInt("win")+1);
+            else
+                PlayerPrefs.SetInt("lose", PlayerPrefs.GetInt("lose")+1);
             GameObject.Find("WinnerText").GetComponent<TextMeshProUGUI>().text = winner;
             GameObject.Find("ScoreTextW").GetComponent<TextMeshProUGUI>().text = score;
         }
