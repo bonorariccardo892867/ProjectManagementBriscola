@@ -1,8 +1,5 @@
----
-title: "Guide to Downloading and Importing the Briscola-Online Project on Unity"
-date: "05/13/2024"
-output: html_document
----
+# Guide to Downloading and Importing the Briscola-Online Project on Unity (05/13/2024)
+
 
 ## Introduction
 
