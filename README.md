@@ -29,6 +29,7 @@ Open Unity on your computer (Version 2022.3.22f1).
 - Once the project is added, you can open it in Unity.
 - Find the main scene file (usually with a .unity extension) in the project folder.
 - Double click on the scene file to open it in Unity.
+- Switch the build platform to Android in the Build Settings
 
 ### 6. Test the game (ParrelSync)
 
